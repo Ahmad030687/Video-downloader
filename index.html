@@ -42,7 +42,6 @@
             position: relative;
         }
 
-        /* Animated Background */
         .bg-animation {
             position: fixed;
             top: 0;
@@ -104,7 +103,6 @@
             75% { transform: translate(-50px, -30px) scale(1.05); }
         }
 
-        /* Main Container */
         .container {
             position: relative;
             z-index: 1;
@@ -113,7 +111,6 @@
             padding: 20px;
         }
 
-        /* Header */
         .header {
             text-align: center;
             padding: 40px 20px 30px;
@@ -175,7 +172,6 @@
             margin-top: 10px;
         }
 
-        /* Main Card */
         .main-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -191,7 +187,6 @@
             box-shadow: 0 12px 40px rgba(139, 92, 246, 0.2);
         }
 
-        /* Input Section */
         .input-group {
             display: flex;
             gap: 12px;
@@ -226,19 +221,9 @@
             color: rgba(160, 160, 192, 0.5);
         }
 
-        .input-icon {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 20px;
-            color: var(--text-secondary);
-            pointer-events: none;
-        }
-
         .paste-btn {
             position: absolute;
-            right: 16px;
+            right: 12px;
             top: 50%;
             transform: translateY(-50%);
             background: rgba(139, 92, 246, 0.2);
@@ -272,6 +257,9 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .download-btn:hover {
@@ -289,7 +277,7 @@
             transform: none;
         }
 
-        .download-btn .spinner {
+        .spinner {
             display: none;
             width: 20px;
             height: 20px;
@@ -297,7 +285,6 @@
             border-top-color: white;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
-            margin-right: 8px;
         }
 
         @keyframes spin {
@@ -312,7 +299,6 @@
             display: none;
         }
 
-        /* Platform Selector */
         .platform-selector {
             display: flex;
             flex-wrap: wrap;
@@ -349,7 +335,6 @@
             box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
         }
 
-        /* Quality Selector */
         .quality-selector {
             display: flex;
             gap: 10px;
@@ -382,7 +367,6 @@
             box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
         }
 
-        /* Format Toggle */
         .format-toggle {
             display: flex;
             background: var(--bg-secondary);
@@ -408,7 +392,6 @@
             color: white;
         }
 
-        /* Result Area */
         .result-area {
             display: none;
             margin-top: 25px;
@@ -487,6 +470,10 @@
             border: none;
             text-align: center;
             font-family: 'Plus Jakarta Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .btn-download {
@@ -508,7 +495,24 @@
             background: rgba(139, 92, 246, 0.3);
         }
 
-        /* Features Grid */
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--bg-card);
+            border-radius: 3px;
+            margin-top: 15px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-gradient);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -541,7 +545,6 @@
             color: var(--text-secondary);
         }
 
-        /* Toast */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -572,8 +575,8 @@
 
         .toast.success { border-color: #10b981; color: #10b981; }
         .toast.error { border-color: #ef4444; color: #ef4444; }
+        .toast.info { border-color: #3b82f6; color: #3b82f6; }
 
-        /* Footer */
         .footer {
             text-align: center;
             padding: 30px;
@@ -586,13 +589,12 @@
             font-weight: 600;
         }
 
-        /* Responsive */
         @media (max-width: 600px) {
             .header { padding: 25px 15px 20px; }
             .logo-text { font-size: 22px; }
             .main-card { padding: 22px 16px; border-radius: 20px; }
             .input-group { flex-direction: column; }
-            .download-btn { width: 100%; text-align: center; justify-content: center; }
+            .download-btn { width: 100%; justify-content: center; }
             .url-input { font-size: 14px; padding: 14px 40px 14px 16px; }
             .features-grid { grid-template-columns: repeat(3, 1fr); }
             .download-actions { flex-direction: column; }
@@ -609,19 +611,16 @@
     </div>
 
     <div class="container">
-        <!-- Header -->
         <div class="header">
             <div class="logo-container">
                 <div class="logo-icon">⬇️</div>
-                <span class="logo-text">PremiumDL</span>
+                <span class="logo-text">AHMAD-DOWNLOADER</span>
             </div>
             <p class="subtitle">Download Videos & Audio from All Social Media Platforms</p>
-            <span class="badge">⚡ Ultra Fast • HD Quality • No Ads</span>
+            <span class="badge">⚡ Ultra Fast • HD Quality • Direct Download</span>
         </div>
 
-        <!-- Main Card -->
         <div class="main-card">
-            <!-- Format Toggle -->
             <div class="format-toggle">
                 <div class="format-option active" data-format="video" onclick="switchFormat('video')">
                     🎬 Video
@@ -631,7 +630,6 @@
                 </div>
             </div>
 
-            <!-- Platform Chips -->
             <div class="platform-selector">
                 <span class="platform-chip active" data-platform="all">🌐 All</span>
                 <span class="platform-chip" data-platform="tiktok">🎵 TikTok</span>
@@ -641,7 +639,6 @@
                 <span class="platform-chip" data-platform="snapchat">👻 Snapchat</span>
             </div>
 
-            <!-- Quality Selector -->
             <div class="quality-selector" id="qualitySelector">
                 <button class="quality-btn" data-quality="360p">360p</button>
                 <button class="quality-btn" data-quality="480p">480p</button>
@@ -649,7 +646,6 @@
                 <button class="quality-btn" data-quality="1080p">1080p FHD</button>
             </div>
 
-            <!-- Input -->
             <div class="input-group">
                 <div class="input-wrapper">
                     <input 
@@ -666,7 +662,10 @@
                 </button>
             </div>
 
-            <!-- Result Area -->
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
             <div class="result-area" id="resultArea">
                 <div class="result-card">
                     <img class="result-preview" id="resultPreview" src="" alt="Preview" style="display:none;" />
@@ -677,20 +676,20 @@
                         </div>
                         <div class="info-item">
                             <div class="info-label">Quality</div>
-                            <div class="info-value" id="infoQuality">-</div>
+                             <div class="info-value" id="infoQuality">-</div>
                         </div>
                         <div class="info-item">
                             <div class="info-label">Size</div>
                             <div class="info-value" id="infoSize">-</div>
                         </div>
                         <div class="info-item">
-                            <div class="info-label">Format</div>
-                            <div class="info-value" id="infoFormat">-</div>
+                            <div class="info-label">Title</div>
+                            <div class="info-value" id="infoTitle">-</div>
                         </div>
                     </div>
                     <div class="download-actions">
                         <button class="action-btn btn-download" id="btnDownloadFile" onclick="downloadFile()">
-                            💾 Download File
+                            💾 Download Now
                         </button>
                         <button class="action-btn btn-copy" onclick="copyLink()">
                             🔗 Copy Link
@@ -700,7 +699,6 @@
             </div>
         </div>
 
-        <!-- Features -->
         <div class="features-grid">
             <div class="feature-item">
                 <div class="feature-icon">🎵</div>
@@ -728,29 +726,36 @@
             </div>
         </div>
 
-        <!-- Footer -->
         <div class="footer">
             Made with ❤️ by <span>Ahmad RDX</span> | Premium Downloader © 2026
         </div>
     </div>
 
-    <!-- Toast -->
     <div class="toast" id="toast"></div>
 
     <script>
-        // State
         let currentFormat = 'video';
         let currentQuality = '720p';
         let currentPlatform = 'all';
         let downloadData = null;
 
-        // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            setupPlatformChips();
-            setupQualityButtons();
-            setupFormatToggle();
+            document.querySelectorAll('.platform-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    document.querySelectorAll('.platform-chip').forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    currentPlatform = chip.dataset.platform;
+                });
+            });
 
-            // Enter key support
+            document.querySelectorAll('.quality-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.quality-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentQuality = btn.dataset.quality;
+                });
+            });
+
             document.getElementById('urlInput').addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') startDownload();
             });
@@ -772,36 +777,13 @@
             }
         }
 
-        function setupPlatformChips() {
-            document.querySelectorAll('.platform-chip').forEach(chip => {
-                chip.addEventListener('click', () => {
-                    document.querySelectorAll('.platform-chip').forEach(c => c.classList.remove('active'));
-                    chip.classList.add('active');
-                    currentPlatform = chip.dataset.platform;
-                });
-            });
-        }
-
-        function setupQualityButtons() {
-            document.querySelectorAll('.quality-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.quality-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    currentQuality = btn.dataset.quality;
-                });
-            });
-        }
-
-        function setupFormatToggle() {
-            // Already handled in switchFormat
-        }
-
         function pasteURL() {
             navigator.clipboard.readText().then(text => {
                 document.getElementById('urlInput').value = text;
                 showToast('URL pasted! 📋', 'success');
             }).catch(() => {
-                showToast('Please paste manually', 'error');
+                document.getElementById('urlInput').focus();
+                showToast('Please paste manually (Ctrl+V)', 'info');
             });
         }
 
@@ -810,9 +792,7 @@
             toast.textContent = message;
             toast.className = `toast ${type}`;
             toast.style.display = 'block';
-            setTimeout(() => {
-                toast.style.display = 'none';
-            }, 3000);
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
         }
 
         function detectPlatform(url) {
@@ -824,6 +804,25 @@
             return 'unknown';
         }
 
+        // PROXY SERVER to bypass CORS - We'll use a CORS proxy
+        const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+
+        async function fetchWithProxy(url) {
+            // Try direct fetch first
+            try {
+                const response = await fetch(url);
+                if (response.ok) return response;
+            } catch (e) {
+                console.log('Direct fetch failed, trying proxy...');
+            }
+
+            // Fallback to proxy
+            const proxyUrl = CORS_PROXY + encodeURIComponent(url);
+            const response = await fetch(proxyUrl);
+            if (!response.ok) throw new Error('Proxy fetch failed');
+            return response;
+        }
+
         async function startDownload() {
             const url = document.getElementById('urlInput').value.trim();
             if (!url) {
@@ -833,7 +832,7 @@
 
             const platform = detectPlatform(url);
             if (platform === 'unknown') {
-                showToast('Unsupported URL. Please check the link ❌', 'error');
+                showToast('Unsupported URL ❌', 'error');
                 return;
             }
 
@@ -841,18 +840,14 @@
             btn.classList.add('loading');
             btn.disabled = true;
 
-            const resultArea = document.getElementById('resultArea');
-            resultArea.style.display = 'none';
+            document.getElementById('resultArea').style.display = 'none';
+            document.getElementById('progressBar').style.display = 'block';
+            document.getElementById('progressFill').style.width = '20%';
 
             try {
                 let apiUrl = '';
-                let videoUrl = '';
-                let title = 'Media';
-                let thumbnail = '';
-                let source = platform.charAt(0).toUpperCase() + platform.slice(1);
-                let format = currentFormat === 'audio' ? 'MP3' : 'MP4';
-
-                // Build API URL based on platform
+                
+                // Build API URLs
                 switch(platform) {
                     case 'tiktok':
                         apiUrl = `https://raza-api-taupe.vercel.app/download/tiktok?url=${encodeURIComponent(url)}`;
@@ -871,13 +866,23 @@
                         break;
                 }
 
-                // Fetch from API
+                document.getElementById('progressFill').style.width = '40%';
+                
+                // Fetch API data
                 const response = await fetch(apiUrl);
                 if (!response.ok) throw new Error('API request failed');
-
+                
                 const data = await response.json();
+                
+                document.getElementById('progressFill').style.width = '60%';
 
-                // Extract video URL based on platform
+                let videoUrl = '';
+                let title = 'Media';
+                let thumbnail = '';
+                let source = platform.charAt(0).toUpperCase() + platform.slice(1);
+                let format = currentFormat === 'audio' ? 'MP3' : 'MP4';
+
+                // Extract video URL
                 switch(platform) {
                     case 'tiktok':
                         if (!data.status) throw new Error('TikTok API failed');
@@ -898,7 +903,7 @@
                         if (!data.success) throw new Error('Instagram API failed');
                         videoUrl = data.result.download_url;
                         thumbnail = data.result.thumbnail;
-                        title = 'Instagram Video';
+                        title = 'Instagram Media';
                         break;
                     case 'snapchat':
                         if (!data.status) throw new Error('Snapchat API failed');
@@ -909,6 +914,8 @@
 
                 if (!videoUrl) throw new Error('No download URL found');
 
+                document.getElementById('progressFill').style.width = '80%';
+
                 // Store download data
                 downloadData = {
                     url: videoUrl,
@@ -916,14 +923,15 @@
                     platform: source,
                     quality: currentFormat === 'audio' ? 'MP3 Audio' : currentQuality,
                     format: format,
-                    thumbnail: thumbnail
+                    thumbnail: thumbnail,
+                    originalUrl: url
                 };
 
                 // Update UI
                 document.getElementById('infoPlatform').textContent = source;
                 document.getElementById('infoQuality').textContent = currentFormat === 'audio' ? 'MP3 Audio' : currentQuality;
-                document.getElementById('infoSize').textContent = 'Ready';
-                document.getElementById('infoFormat').textContent = format;
+                document.getElementById('infoSize').textContent = 'Ready to download';
+                document.getElementById('infoTitle').textContent = title.substring(0, 40);
 
                 const preview = document.getElementById('resultPreview');
                 if (thumbnail) {
@@ -933,33 +941,84 @@
                     preview.style.display = 'none';
                 }
 
-                resultArea.style.display = 'block';
-                showToast(`✅ ${source} ${currentFormat === 'audio' ? 'Audio' : 'Video'} Ready!`, 'success');
+                document.getElementById('resultArea').style.display = 'block';
+                document.getElementById('progressFill').style.width = '100%';
+                
+                setTimeout(() => {
+                    document.getElementById('progressBar').style.display = 'none';
+                    document.getElementById('progressFill').style.width = '0%';
+                }, 500);
+
+                showToast(`✅ ${source} ready! Click Download Now button`, 'success');
 
             } catch (error) {
-                console.error('Download error:', error);
-                showToast(`❌ Error: ${error.message}`, 'error');
+                console.error('Error:', error);
+                showToast(`❌ ${error.message}`, 'error');
+                document.getElementById('progressBar').style.display = 'none';
+                document.getElementById('progressFill').style.width = '0%';
             } finally {
                 btn.classList.remove('loading');
                 btn.disabled = false;
             }
         }
 
-        function downloadFile() {
+        async function downloadFile() {
             if (!downloadData || !downloadData.url) {
-                showToast('No file to download', 'error');
+                showToast('No file to download. Please fetch first!', 'error');
                 return;
             }
 
-            const a = document.createElement('a');
-            a.href = downloadData.url;
-            a.download = `${downloadData.title.replace(/[^a-z0-9]/gi, '_')}.${downloadData.format.toLowerCase()}`;
-            a.target = '_blank';
-            a.rel = 'noopener noreferrer';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            showToast('📥 Downloading...', 'success');
+            const btnDownload = document.getElementById('btnDownloadFile');
+            btnDownload.textContent = '⏳ Downloading...';
+            btnDownload.disabled = true;
+
+            try {
+                showToast('📥 Starting download...', 'info');
+
+                // FETCH the file as BLOB (this is the KEY - actual download)
+                const response = await fetch(downloadData.url, {
+                    mode: 'cors',
+                    headers: {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                    }
+                });
+
+                if (!response.ok) throw new Error('Failed to fetch file');
+
+                // Get the blob
+                const blob = await response.blob();
+                
+                // Get file size
+                const sizeMB = (blob.size / (1024 * 1024)).toFixed(2);
+                document.getElementById('infoSize').textContent = sizeMB + ' MB';
+
+                // Create object URL
+                const blobUrl = window.URL.createObjectURL(blob);
+
+                // CREATE DIRECT DOWNLOAD
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = `${downloadData.title.replace(/[^a-z0-9]/gi, '_')}.${downloadData.format.toLowerCase()}`;
+                document.body.appendChild(a);
+                a.click();
+                
+                // Cleanup
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(blobUrl);
+
+                showToast(`✅ Downloaded successfully! (${sizeMB} MB)`, 'success');
+
+            } catch (error) {
+                console.error('Download error:', error);
+                
+                // FALLBACK: If blob download fails, open in new tab
+                showToast('⚠️ Direct download blocked. Opening in new tab...', 'info');
+                window.open(downloadData.url, '_blank');
+                
+            } finally {
+                btnDownload.textContent = '💾 Download Now';
+                btnDownload.disabled = false;
+            }
         }
 
         function copyLink() {
@@ -969,9 +1028,16 @@
             }
 
             navigator.clipboard.writeText(downloadData.url).then(() => {
-                showToast('📋 Link copied to clipboard!', 'success');
+                showToast('📋 Link copied!', 'success');
             }).catch(() => {
-                showToast('Failed to copy link', 'error');
+                // Fallback
+                const textArea = document.createElement('textarea');
+                textArea.value = downloadData.url;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showToast('📋 Link copied!', 'success');
             });
         }
     </script>
