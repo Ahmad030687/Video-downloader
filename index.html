@@ -3,158 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AHMAD RDX | THE GODFATHER DOWNLOADER</title>
+    <title>AHMAD RDX | ELITE DOWNLOADER</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Quantico:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --rdx-red: #ff0000; --rdx-black: #050505; }
         body {
-            background-color: var(--rdx-black);
-            color: white;
-            font-family: 'Quantico', sans-serif;
-            background-image: linear-gradient(rgba(255, 0, 0, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 0, 0, 0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
+            background: #000;
+            color: #ff0000;
+            font-family: 'Space Mono', monospace;
+            overflow-x: hidden;
         }
-        .font-cyber { font-family: 'Orbitron', sans-serif; }
-        .rdx-border { border: 2px solid var(--rdx-red); box-shadow: 0 0 15px rgba(255, 0, 0, 0.5); }
-        .glow-text { text-shadow: 0 0 10px rgba(255, 0, 0, 0.8); }
-        
-        .platform-icon { font-size: 2.5rem; color: #222; transition: 0.5s; filter: drop-shadow(0 0 0px transparent); }
-        .active-yt { color: #ff0000; filter: drop-shadow(0 0 10px #ff0000); transform: scale(1.2); }
-        .active-ig { color: #e1306c; filter: drop-shadow(0 0 10px #e1306c); transform: scale(1.2); }
-        .active-fb { color: #1877f2; filter: drop-shadow(0 0 10px #1877f2); transform: scale(1.2); }
-        .active-tt { color: #ffffff; filter: drop-shadow(0 0 10px #ffffff); transform: scale(1.2); }
+        .rdx-main-box {
+            border: 2px solid #ff0000;
+            background: linear-gradient(145deg, #0a0000, #1a0000);
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.3);
+            position: relative;
+        }
+        .header-glow {
+            font-family: 'Syncopate', sans-serif;
+            text-shadow: 0 0 15px #ff0000;
+            letter-spacing: -2px;
+        }
+        /* Icon Glow System */
+        .icon-box i { font-size: 2.5rem; opacity: 0.1; transition: 0.5s; filter: grayscale(1); }
+        .icon-active { opacity: 1 !important; filter: grayscale(0) !important; transform: scale(1.3); }
+        .yt-active { color: #ff0000; drop-shadow: 0 0 15px #ff0000; }
+        .ig-active { color: #d62976; drop-shadow: 0 0 15px #d62976; }
+        .fb-active { color: #1877f2; drop-shadow: 0 0 15px #1877f2; }
+        .tt-active { color: #fff; drop-shadow: 0 0 15px #fff; }
 
-        .btn-rdx {
-            background: var(--rdx-red);
-            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
-            transition: 0.3s;
+        .rdx-input {
+            background: #000;
+            border: 1px solid #440000;
+            border-left: 4px solid #ff0000;
+            color: #fff;
+            padding: 18px;
+            width: 100%;
+            outline: none;
+            font-size: 0.9rem;
+        }
+        .rdx-btn {
+            background: #ff0000;
+            color: #000;
+            padding: 15px;
+            font-weight: 900;
+            width: 100%;
             text-transform: uppercase;
-            font-weight: bold;
+            clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+            transition: 0.3s;
         }
-        .btn-rdx:hover { background: #cc0000; letter-spacing: 2px; box-shadow: 0 0 20px #ff0000; }
-
-        @keyframes scanline { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
-        .scanner { position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--rdx-red); animation: scanline 3s linear infinite; opacity: 0.3; }
+        .rdx-btn:hover { background: #fff; box-shadow: 0 0 25px #fff; transform: translateY(-2px); }
+        
+        .loader-rdx {
+            width: 50px;
+            height: 10px;
+            background: #220000;
+            position: relative;
+            overflow: hidden;
+            margin: 10px auto;
+        }
+        .loader-rdx::after {
+            content: '';
+            width: 20px;
+            height: 10px;
+            background: #ff0000;
+            position: absolute;
+            animation: slide 1s infinite linear;
+        }
+        @keyframes slide { 0% { left: -20px; } 100% { left: 50px; } }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4 overflow-hidden">
-    <div class="scanner"></div>
+<body class="min-h-screen flex items-center justify-center p-6">
 
-    <div class="w-full max-w-2xl relative">
-        <div class="text-center mb-10">
-            <h1 class="font-cyber text-6xl font-extrabold tracking-tighter glow-text italic">
-                AHMAD <span class="text-white">RDX</span>
-            </h1>
-            <p class="text-red-500 tracking-[0.5em] text-xs font-bold uppercase mt-2">Elite System Mainframe</p>
+    <div class="w-full max-w-xl">
+        <div class="text-center mb-12">
+            <h1 class="header-glow text-5xl md:text-6xl italic">AHMAD<span class="text-white">RDX</span></h1>
+            <p class="text-[9px] tracking-[12px] uppercase opacity-60 mt-2">Multi-Platform Extraction System</p>
         </div>
 
-        <div class="bg-black/80 rdx-border rounded-none p-8 relative overflow-hidden">
-            <div class="absolute top-0 right-0 p-2 text-[10px] text-red-600">SECURE_LINK: V3.0</div>
-
-            <div class="flex justify-around mb-10 border-b border-red-900/50 pb-6">
-                <i id="icon-youtube" class="fa-brands fa-youtube platform-icon"></i>
-                <i id="icon-instagram" class="fa-brands fa-instagram platform-icon"></i>
-                <i id="icon-facebook" class="fa-brands fa-facebook platform-icon"></i>
-                <i id="icon-tiktok" class="fa-brands fa-tiktok platform-icon"></i>
+        <div class="rdx-main-box p-8 md:p-10 rounded-sm">
+            <div class="icon-box flex justify-between mb-10 border-b border-red-900/30 pb-8">
+                <i id="i-yt" class="fa-brands fa-youtube"></i>
+                <i id="i-ig" class="fa-brands fa-instagram"></i>
+                <i id="i-fb" class="fa-brands fa-facebook"></i>
+                <i id="i-tt" class="fa-brands fa-tiktok"></i>
             </div>
 
-            <div class="mb-8 relative">
-                <label class="block text-red-500 text-[10px] uppercase mb-1 ml-1">Input Target URL</label>
-                <input type="text" id="urlInput" oninput="autoDetect()" 
-                    placeholder="PASTE LINK HERE..." 
-                    class="w-full bg-red-900/10 border-b-2 border-red-600 p-4 outline-none text-white font-cyber focus:bg-red-900/20 transition">
+            <div class="space-y-6">
+                <input type="text" id="urlInp" oninput="checkPlatform()" placeholder="PASTE TARGET URL HERE..." class="rdx-input">
+                
+                <button onclick="fetchRDX()" id="mainBtn" class="rdx-btn">Initialize Fetch</button>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <button onclick="handleDownload('Mp4')" class="btn-rdx py-4 text-black">Fetch Video (MP4)</button>
-                <button onclick="handleDownload('Mp3')" class="btn-rdx py-4 text-black">Fetch Audio (MP3)</button>
-            </div>
-
-            <div id="statusBox" class="mt-8 hidden border-t border-red-900 pt-6">
-                <div id="loading" class="text-center">
-                    <div class="inline-block w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
-                    <p class="mt-2 text-red-500 animate-pulse font-cyber text-sm">BYPASSING FIREWALLS...</p>
+            <div id="statusArea" class="mt-8 hidden border-t border-red-900/50 pt-6">
+                <div id="loadUI" class="text-center hidden">
+                    <div class="loader-rdx"></div>
+                    <p class="text-[10px] animate-pulse">BYPASSING SECURITY...</p>
                 </div>
-                <div id="result" class="hidden">
-                    <div class="bg-red-600 p-1">
-                        <div class="bg-black p-4 text-center">
-                            <p id="resTitle" class="text-xs truncate mb-4 text-red-500"></p>
-                            <a id="dlBtn" href="#" target="_blank" class="block w-full border border-red-600 py-2 hover:bg-red-600 hover:text-white transition uppercase text-sm font-bold">Initialize Download</a>
-                        </div>
-                    </div>
+
+                <div id="resultUI" class="hidden text-center">
+                    <div class="bg-red-600 text-black py-1 px-3 text-[10px] font-bold mb-3 inline-block">SUCCESS</div>
+                    <p id="vidTitle" class="text-white text-xs truncate mb-5"></p>
+                    <a id="finalDl" href="#" target="_blank" class="block w-full border-2 border-white text-white py-3 hover:bg-white hover:text-black transition font-bold uppercase tracking-widest text-sm">Download Media</a>
                 </div>
             </div>
         </div>
+
+        <p class="text-center mt-10 text-[10px] opacity-20 uppercase tracking-[5px]">AHMAD RDX SYSTEM V1.5.0</p>
     </div>
 
     <script>
-        const API_ANABOT = "https://anabot.my.id/api/download/";
-        const API_YT = "https://kojaxd-api.vercel.app/downloader/ytmp4";
-        const KEY_ANA = "freeApikey";
-        const KEY_KOJA = "Koja-5d5acdde3e2ab95585d4ebc888684266";
+        function checkPlatform() {
+            const val = document.getElementById('urlInp').value.toLowerCase();
+            const icons = document.querySelectorAll('.icon-box i');
+            icons.forEach(i => i.className = i.className.replace(/icon-active|yt-active|ig-active|fb-active|tt-active/g, ''));
 
-        function autoDetect() {
-            const url = document.getElementById('urlInput').value.toLowerCase();
-            const icons = ['youtube', 'instagram', 'facebook', 'tiktok'];
-            icons.forEach(i => document.getElementById('icon-'+i).className = `fa-brands fa-${i} platform-icon`);
-
-            if (url.includes('youtu')) document.getElementById('icon-youtube').classList.add('active-yt');
-            else if (url.includes('instagram')) document.getElementById('icon-instagram').classList.add('active-ig');
-            else if (url.includes('facebook') || url.includes('fb.watch')) document.getElementById('icon-facebook').classList.add('active-fb');
-            else if (url.includes('tiktok')) document.getElementById('icon-tiktok').classList.add('active-tt');
+            if(val.includes('youtu')) document.getElementById('i-yt').classList.add('icon-active', 'yt-active');
+            else if(val.includes('insta')) document.getElementById('i-ig').classList.add('icon-active', 'ig-active');
+            else if(val.includes('facebook') || val.includes('fb.watch')) document.getElementById('i-fb').classList.add('icon-active', 'fb-active');
+            else if(val.includes('tiktok')) document.getElementById('i-tt').classList.add('icon-active', 'tt-active');
         }
 
-        async function handleDownload(format) {
-            const url = document.getElementById('urlInput').value;
-            if(!url) return alert("NO URL DETECTED!");
+        async function fetchRDX() {
+            const url = document.getElementById('urlInp').value;
+            if(!url) return alert("EMPTY_URL_ERROR");
 
-            const sb = document.getElementById('statusBox');
-            const ld = document.getElementById('loading');
-            const rs = document.getElementById('result');
-            
-            sb.classList.remove('hidden');
+            const st = document.getElementById('statusArea');
+            const ld = document.getElementById('loadUI');
+            const rs = document.getElementById('resultUI');
+            const btn = document.getElementById('mainBtn');
+
+            st.classList.remove('hidden');
             ld.classList.remove('hidden');
             rs.classList.add('hidden');
+            btn.disabled = true;
+            btn.style.opacity = "0.5";
 
             try {
-                let finalUrl = "";
-                if(url.includes('youtu')) {
-                    finalUrl = `${API_YT}?apikey=${KEY_KOJA}&url=${encodeURIComponent(url)}&format=${format}`;
+                // Using the Arif-Babu Downloader Logic API version
+                const response = await fetch(`https://api.shaan.xyz/alldown?url=${encodeURIComponent(url)}`);
+                const res = await response.json();
+
+                if(res && res.data) {
+                    const dl = res.data.high || res.data.low;
+                    document.getElementById('vidTitle').innerText = res.data.title || "RDX_FILE_EXTRACTED";
+                    document.getElementById('finalDl').href = dl;
+                    
+                    ld.classList.add('hidden');
+                    rs.classList.remove('hidden');
                 } else {
-                    let platform = url.includes('instagram') ? 'instagram' : url.includes('facebook') ? 'facebook' : 'tiktok';
-                    finalUrl = `${API_ANABOT}${platform}?url=${encodeURIComponent(url)}&apikey=${KEY_ANA}`;
+                    throw new Error();
                 }
-
-                const resp = await fetch(finalUrl);
-                const json = await resp.json();
-
-                let dlLink = "";
-                let title = "RDX_SYSTEM_FILE";
-
-                if(url.includes('youtu')) {
-                    dlLink = json.data.download;
-                    title = json.data.title;
-                } else {
-                    const d = json.result || json.data;
-                    dlLink = d.video_no_watermark || d.video || d.url || (Array.isArray(d) ? d[0].url : d);
-                    title = d.title || d.desc || "RDX_MEDIA";
-                }
-
-                if(!dlLink) throw new Error();
-
-                document.getElementById('resTitle').innerText = title;
-                document.getElementById('dlBtn').href = dlLink;
-                ld.classList.add('hidden');
-                rs.classList.remove('hidden');
-
             } catch (e) {
-                alert("SYSTEM ERROR: API REJECTED REQUEST");
-                sb.classList.add('hidden');
+                alert("API_REJECTED: Trying Backup...");
+                // Fallback direct download link attempt
+                window.open(`https://api.cobalt.tools/api/json?url=${encodeURIComponent(url)}`);
+                st.classList.add('hidden');
+            } finally {
+                btn.disabled = false;
+                btn.style.opacity = "1";
             }
         }
     </script>
 </body>
 </html>
-
