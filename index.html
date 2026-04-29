@@ -23,7 +23,6 @@
             position: relative;
         }
 
-        /* Premium Animated Background */
         .premium-bg {
             position: fixed;
             top: 0;
@@ -37,7 +36,6 @@
                 linear-gradient(145deg, #0a0a0f 0%, #05050a 100%);
         }
 
-        /* Floating Orbs */
         .floating-orb {
             position: fixed;
             border-radius: 50%;
@@ -79,7 +77,6 @@
             66% { transform: translate(-40px, 40px) scale(0.85); }
         }
 
-        /* Subtle Grid */
         .cyber-grid {
             position: fixed;
             top: 0;
@@ -93,11 +90,10 @@
             pointer-events: none;
         }
 
-        /* Container */
         .container {
             position: relative;
             z-index: 20;
-            max-width: 580px;
+            max-width: 600px;
             margin: 0 auto;
             padding: 28px 20px;
             min-height: 100vh;
@@ -106,7 +102,6 @@
             justify-content: center;
         }
 
-        /* Header */
         .header {
             text-align: center;
             margin-bottom: 40px;
@@ -155,7 +150,6 @@
             margin: 18px auto 0;
         }
 
-        /* Glass Card */
         .glass-card {
             background: rgba(8, 8, 16, 0.7);
             backdrop-filter: blur(24px);
@@ -171,7 +165,6 @@
             box-shadow: 0 35px 55px -20px rgba(0, 102, 255, 0.15), 0 0 0 1px rgba(0, 102, 255, 0.2) inset;
         }
 
-        /* Platform Icons */
         .platform-icons {
             display: flex;
             justify-content: center;
@@ -190,6 +183,7 @@
             border-radius: 60px;
             border: 0.5px solid rgba(255, 255, 255, 0.08);
             transition: all 0.3s;
+            cursor: pointer;
         }
         
         .platform-badge i {
@@ -214,7 +208,6 @@
             border-color: rgba(255, 255, 255, 0.2);
         }
 
-        /* Input Group */
         .input-group {
             margin-bottom: 28px;
         }
@@ -260,7 +253,6 @@
             color: rgba(255, 255, 255, 0.2);
         }
 
-        /* Download Button */
         .download-btn {
             width: 100%;
             padding: 16px 24px;
@@ -292,7 +284,6 @@
             cursor: not-allowed;
         }
 
-        /* Loading Animation */
         .loading-spinner {
             display: none;
             align-items: center;
@@ -321,14 +312,13 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Result Box */
         .result-box {
             margin-top: 28px;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             border-radius: 32px;
             display: none;
-            border: 0.5px solid rgba(0, 255, 136, 0.3);
+            border: 1px solid rgba(0, 255, 136, 0.3);
             animation: fadeIn 0.4s ease;
         }
         
@@ -349,10 +339,6 @@
             background: #000;
         }
         
-        .video-info {
-            margin-bottom: 16px;
-        }
-        
         .video-title {
             font-size: 0.85rem;
             font-weight: 600;
@@ -364,39 +350,31 @@
         .video-meta {
             font-size: 0.7rem;
             color: rgba(0, 255, 136, 0.7);
+            margin-bottom: 16px;
         }
         
-        .action-links {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        
-        .download-link {
-            flex: 1;
-            padding: 14px 16px;
+        .direct-download-btn {
+            width: 100%;
+            padding: 14px 20px;
             background: linear-gradient(135deg, #00ff88, #00994d);
             border: none;
             border-radius: 40px;
-            text-align: center;
-            text-decoration: none;
             color: #0a0a0f;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 700;
-            transition: all 0.3s;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            cursor: pointer;
+            gap: 10px;
+            transition: all 0.3s;
         }
         
-        .download-link:hover {
+        .direct-download-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(0, 255, 136, 0.4);
         }
 
-        /* Toast Message */
         .toast-msg {
             position: fixed;
             bottom: 30px;
@@ -435,7 +413,6 @@
             to { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
 
-        /* Footer */
         .footer {
             text-align: center;
             margin-top: 48px;
@@ -451,7 +428,6 @@
             font-weight: 700;
         }
 
-        /* Responsive */
         @media (max-width: 550px) {
             .container { padding: 16px; }
             .glass-card { padding: 28px 22px; }
@@ -459,7 +435,6 @@
             .platform-icons { gap: 12px; }
             .platform-badge { padding: 6px 14px; }
             .platform-badge i { font-size: 1.2rem; }
-            .action-links { flex-direction: column; }
             .toast-msg { white-space: normal; text-align: center; max-width: 90%; }
         }
     </style>
@@ -484,11 +459,11 @@
 
     <div class="glass-card">
         <div class="platform-icons">
-            <div class="platform-badge tiktok"><i class="fab fa-tiktok"></i><span>TikTok</span></div>
-            <div class="platform-badge facebook"><i class="fab fa-facebook-f"></i><span>Facebook</span></div>
-            <div class="platform-badge youtube"><i class="fab fa-youtube"></i><span>YouTube</span></div>
-            <div class="platform-badge instagram"><i class="fab fa-instagram"></i><span>Instagram</span></div>
-            <div class="platform-badge snapchat"><i class="fab fa-snapchat-ghost"></i><span>Snapchat</span></div>
+            <div class="platform-badge tiktok" data-platform="tiktok"><i class="fab fa-tiktok"></i><span>TikTok</span></div>
+            <div class="platform-badge facebook" data-platform="facebook"><i class="fab fa-facebook-f"></i><span>Facebook</span></div>
+            <div class="platform-badge youtube" data-platform="youtube"><i class="fab fa-youtube"></i><span>YouTube</span></div>
+            <div class="platform-badge instagram" data-platform="instagram"><i class="fab fa-instagram"></i><span>Instagram</span></div>
+            <div class="platform-badge snapchat" data-platform="snapchat"><i class="fab fa-snapchat-ghost"></i><span>Snapchat</span></div>
         </div>
 
         <div class="input-group">
@@ -507,11 +482,11 @@
 
         <div id="resultBox" class="result-box">
             <video id="videoPreview" class="video-preview" controls></video>
-            <div class="video-info">
-                <div id="videoTitle" class="video-title"></div>
-                <div id="videoMeta" class="video-meta"></div>
-            </div>
-            <div id="downloadLinks" class="action-links"></div>
+            <div id="videoTitle" class="video-title"></div>
+            <div id="videoMeta" class="video-meta"></div>
+            <button id="directDownloadBtn" class="direct-download-btn">
+                <i class="fas fa-download"></i> DIRECT DOWNLOAD
+            </button>
         </div>
     </div>
 
@@ -535,77 +510,94 @@
     const videoPreview = document.getElementById('videoPreview');
     const videoTitle = document.getElementById('videoTitle');
     const videoMeta = document.getElementById('videoMeta');
-    const downloadLinks = document.getElementById('downloadLinks');
+    const directDownloadBtn = document.getElementById('directDownloadBtn');
     const toastMsg = document.getElementById('toastMsg');
+
+    let currentVideoUrl = null;
+    let currentPlatform = null;
+
+    // Platform URLs
+    const platformUrls = {
+        tiktok: (url) => `https://raza-api-taupe.vercel.app/download/tiktok?url=${encodeURIComponent(url)}`,
+        facebook: (url) => `https://raza-api-taupe.vercel.app/download/facebook?url=${encodeURIComponent(url)}`,
+        youtube: (url) => `https://raza-api-taupe.vercel.app/download/ytdl?url=${encodeURIComponent(url)}`,
+        instagram: (url) => `https://api.princetechn.com/api/download/instadl?apikey=prince&url=${encodeURIComponent(url)}`,
+        snapchat: (url) => `https://ahmad-rdx-api-7x1p.onrender.com/downloader/aiodl?apikey=AhmadRDX&url=${encodeURIComponent(url)}`
+    };
 
     // Detect platform from URL
     function detectPlatform(url) {
         if (url.includes('tiktok.com')) return 'tiktok';
         if (url.includes('facebook.com') || url.includes('fb.com') || url.includes('fb.watch')) return 'facebook';
         if (url.includes('youtube.com') || url.includes('youtu.be')) return 'youtube';
-        if (url.includes('instagram.com') || url.includes('instagr.am') || url.includes('insta')) return 'instagram';
+        if (url.includes('instagram.com') || url.includes('instagr.am')) return 'instagram';
         if (url.includes('snapchat.com')) return 'snapchat';
         return null;
     }
 
-    // Extract video URL from API response (deep search)
+    // Extract video URL from ANY response structure
     function extractVideoUrl(data, platform) {
-        // If data is string, try to parse
+        // If data is string, try to parse JSON
         if (typeof data === 'string') {
             try {
                 data = JSON.parse(data);
-            } catch(e) {}
-        }
-        
-        // Common patterns for video URLs
-        const patterns = [
-            'video_url', 'video', 'url', 'download_url', 'download', 
-            'play_url', 'play', 'hd', 'sd', 'high', 'low',
-            'result', 'data', 'link', 'src', 'source'
-        ];
-        
-        // Direct match
-        for (let pattern of patterns) {
-            if (data[pattern] && typeof data[pattern] === 'string' && (data[pattern].includes('.mp4') || data[pattern].includes('video'))) {
-                return data[pattern];
+            } catch(e) {
+                // Check if string itself is a URL
+                if (data.startsWith('http') && (data.includes('.mp4') || data.includes('video'))) {
+                    return data;
+                }
             }
         }
         
-        // Check nested objects
-        for (let key in data) {
-            if (data[key] && typeof data[key] === 'object') {
-                const found = extractVideoUrl(data[key], platform);
-                if (found) return found;
+        // If data is not object, return null
+        if (typeof data !== 'object' || data === null) return null;
+        
+        // All possible keys that might contain video URL
+        const videoKeys = [
+            'video_url', 'video', 'url', 'download_url', 'download', 'play_url', 'play',
+            'hd', 'sd', 'high', 'low', '480p', '720p', '1080p',
+            'result', 'data', 'link', 'src', 'source', 'content', 'file',
+            'video_link', 'direct_url', 'media_url', 'playback', 'location'
+        ];
+        
+        // Check each key
+        for (let key of videoKeys) {
+            if (data[key]) {
+                if (typeof data[key] === 'string' && (data[key].startsWith('http') || data[key].startsWith('//'))) {
+                    let url = data[key];
+                    if (url.startsWith('//')) url = 'https:' + url;
+                    if (url.includes('.mp4') || url.includes('video') || url.includes('play')) {
+                        return url;
+                    }
+                }
+                if (typeof data[key] === 'object') {
+                    const nested = extractVideoUrl(data[key], platform);
+                    if (nested) return nested;
+                }
+                if (Array.isArray(data[key]) && data[key].length > 0) {
+                    for (let item of data[key]) {
+                        const nested = extractVideoUrl(item, platform);
+                        if (nested) return nested;
+                    }
+                }
             }
         }
         
         // Platform specific fallbacks
-        if (platform === 'youtube' && data.url) return data.url;
-        if (platform === 'facebook' && (data.hd || data.sd)) return data.hd || data.sd;
-        if (platform === 'instagram' && (data.video_url || data.url)) return data.video_url || data.url;
-        if (platform === 'tiktok' && (data.play_url || data.video_url)) return data.play_url || data.video_url;
-        if (platform === 'snapchat' && data.url) return data.url;
+        if (platform === 'youtube' && (data.url || data.download_url)) {
+            return data.url || data.download_url;
+        }
+        if (platform === 'facebook' && (data.hd || data.sd || data.download_url)) {
+            return data.hd || data.sd || data.download_url;
+        }
+        if (platform === 'instagram' && (data.video_url || data.url || data.download_url)) {
+            return data.video_url || data.url || data.download_url;
+        }
+        if (platform === 'tiktok' && (data.play_url || data.video_url || data.download_url)) {
+            return data.play_url || data.video_url || data.download_url;
+        }
         
         return null;
-    }
-
-    // Get API URL based on platform
-    function getApiUrl(platform, url) {
-        const encodedUrl = encodeURIComponent(url);
-        switch(platform) {
-            case 'tiktok':
-                return `https://raza-api-taupe.vercel.app/download/tiktok?url=${encodedUrl}`;
-            case 'facebook':
-                return `https://raza-api-taupe.vercel.app/download/facebook?url=${encodedUrl}`;
-            case 'youtube':
-                return `https://raza-api-taupe.vercel.app/download/ytdl?url=${encodedUrl}`;
-            case 'instagram':
-                return `https://api.princetechn.com/api/download/instadl?apikey=prince&url=${encodedUrl}`;
-            case 'snapchat':
-                return `https://ahmad-rdx-api-7x1p.onrender.com/downloader/aiodl?apikey=AhmadRDX&url=${encodedUrl}`;
-            default:
-                return null;
-        }
     }
 
     // Show toast notification
@@ -618,12 +610,11 @@
         }, 4000);
     }
 
-    // Force download
+    // Force download function
     function forceDownload(url, filename) {
         const link = document.createElement('a');
         link.href = url;
         link.download = filename || 'video.mp4';
-        link.target = '_blank';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -631,25 +622,30 @@
 
     // Main download function
     async function downloadVideo() {
-        const url = urlInput.value.trim();
+        let url = urlInput.value.trim();
         
         if (!url) {
             showToast('Please paste a video URL first', true);
             return;
         }
 
-        const platform = detectPlatform(url);
+        // Auto-detect platform
+        let platform = detectPlatform(url);
+        
+        // If platform not detected, try to get from user input or use default
         if (!platform) {
-            showToast('Unsupported platform! Try TikTok, Facebook, YouTube, Instagram, or Snapchat', true);
+            showToast('Could not detect platform. Please check URL.', true);
             return;
         }
+
+        currentPlatform = platform;
 
         // Show loading
         loadingSpinner.classList.add('show');
         resultBox.classList.remove('show');
         downloadBtn.disabled = true;
 
-        const apiUrl = getApiUrl(platform, url);
+        const apiUrl = platformUrls[platform](url);
         
         try {
             const controller = new AbortController();
@@ -665,70 +661,59 @@
             
             clearTimeout(timeoutId);
             
-            if (!response.ok) {
-                throw new Error(`API returned ${response.status}`);
+            let data;
+            const textResponse = await response.text();
+            
+            try {
+                data = JSON.parse(textResponse);
+            } catch(e) {
+                data = { raw: textResponse };
             }
             
-            const data = await response.json();
-            
-            console.log('API Response:', data); // Debug log
+            console.log('API Response:', data);
             
             // Extract video URL
             let videoUrl = extractVideoUrl(data, platform);
             
-            // If still no video URL, try different approach
+            // If still no video URL, try alternate approach
             if (!videoUrl && data.result) {
-                videoUrl = typeof data.result === 'string' ? data.result : extractVideoUrl(data.result, platform);
+                videoUrl = extractVideoUrl(data.result, platform);
             }
-            
             if (!videoUrl && data.data) {
                 videoUrl = extractVideoUrl(data.data, platform);
             }
-            
-            if (!videoUrl) {
-                throw new Error('Could not extract download link. Please try again.');
+            if (!videoUrl && data.videos) {
+                videoUrl = extractVideoUrl(data.videos, platform);
             }
             
-            // Ensure video URL is valid
-            if (!videoUrl.startsWith('http')) {
+            if (!videoUrl) {
+                // Last resort: show raw response for debugging
+                console.error('Could not extract video URL from:', data);
+                throw new Error('Could not extract video link. API response structure may have changed.');
+            }
+            
+            // Ensure URL is valid
+            if (videoUrl.startsWith('//')) {
                 videoUrl = 'https:' + videoUrl;
             }
             
+            currentVideoUrl = videoUrl;
+            
             // Get title
-            let title = '';
-            if (data.title) title = data.title;
-            else if (data.desc) title = data.desc;
-            else if (data.description) title = data.description;
-            else title = `${platform.toUpperCase()} Video`;
+            let title = data.title || data.desc || data.description || data.caption || `${platform.toUpperCase()} Video`;
+            if (typeof title !== 'string') title = `${platform.toUpperCase()} Video`;
             
             // Display result
             videoPreview.src = videoUrl;
             videoTitle.textContent = title.substring(0, 80);
             videoMeta.innerHTML = `<i class="fas fa-check-circle" style="color:#00ff88"></i> Ready to download • ${platform.toUpperCase()}`;
             
-            // Create download button that directly downloads
-            downloadLinks.innerHTML = `
-                <button onclick="forceDownload('${videoUrl}', '${title.replace(/[^a-zA-Z0-9]/g, '_')}.mp4')" class="download-link">
-                    <i class="fas fa-download"></i> DIRECT DOWNLOAD
-                </button>
-                <button onclick="window.open('${videoUrl}', '_blank')" class="download-link" style="background: linear-gradient(135deg, #0066ff, #0044aa);">
-                    <i class="fas fa-play"></i> PREVIEW VIDEO
-                </button>
-            `;
-            
             resultBox.classList.add('show');
-            showToast(`✓ Ready! Download your ${platform.toUpperCase()} video now`);
-            
-            // Auto trigger download (optional)
-            // forceDownload(videoUrl, `${title.replace(/[^a-zA-Z0-9]/g, '_')}.mp4`);
+            showToast(`✓ Success! Your ${platform.toUpperCase()} video is ready`);
             
         } catch (error) {
             console.error('Download error:', error);
-            if (error.name === 'AbortError') {
-                showToast('Request timeout. Please try again.', true);
-            } else {
-                showToast(`Failed: ${error.message}`, true);
-            }
+            showToast(`Failed: ${error.message}`, true);
             resultBox.classList.remove('show');
         } finally {
             loadingSpinner.classList.remove('show');
@@ -736,12 +721,36 @@
         }
     }
 
-    // Make forceDownload globally accessible
-    window.forceDownload = forceDownload;
+    // Direct download handler
+    directDownloadBtn.addEventListener('click', () => {
+        if (currentVideoUrl) {
+            const filename = `${currentPlatform}_video_${Date.now()}.mp4`;
+            forceDownload(currentVideoUrl, filename);
+            showToast('Download started!');
+        } else {
+            showToast('No video available. Please process URL first.', true);
+        }
+    });
 
-    // Event listener
-    downloadBtn.addEventListener('click', downloadVideo);
-    
+    // Platform badge click - set example URL
+    document.querySelectorAll('.platform-badge').forEach(badge => {
+        badge.addEventListener('click', () => {
+            const platform = badge.dataset.platform;
+            const examples = {
+                tiktok: 'https://www.tiktok.com/@username/video/123456789',
+                facebook: 'https://www.facebook.com/watch/?v=123456789',
+                youtube: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                instagram: 'https://www.instagram.com/p/Cxample/',
+                snapchat: 'https://www.snapchat.com/discover/example'
+            };
+            if (examples[platform]) {
+                urlInput.value = examples[platform];
+                urlInput.focus();
+                showToast(`${platform.toUpperCase()} URL example added`);
+            }
+        });
+    });
+
     // Enter key support
     urlInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
@@ -763,7 +772,8 @@
 
     // Console branding
     console.log('%c⚡ AHMAD RDX PREMIUM DOWNLOADER 2026 ⚡', 'color: #ff0066; font-size: 14px; font-weight: bold;');
-    console.log('%cDirect Download Mode - No Redirects', 'color: #00ff88; font-size: 12px;');
+    console.log('%cDirect Download Mode - Fixed API Parsing', 'color: #00ff88; font-size: 12px;');
+    console.log('%cSupported: TikTok | Facebook | YouTube | Instagram | Snapchat', 'color: #0066ff; font-size: 10px;');
 </script>
 </body>
 </html>
