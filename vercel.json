@@ -1,16 +1,8 @@
 {
-  "version": 2,
-  "name": "ahmii-sms-bomber",
-  "builds": [
-    {
-      "src": "index.html",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ]
+    "version": 2,
+    "buildCommand": "",
+    "outputDirectory": "",
+    "rewrites": [
+        { "source": "/api/download", "destination": "/api/download" }
+    ]
 }
