@@ -3,168 +3,840 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AHMAD RDX | ELITE DOWNLOADER</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <title>VidFlow Pro • Ultimate Video Downloader</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            background: #000;
-            color: #ff0000;
-            font-family: 'Space Mono', monospace;
-            overflow-x: hidden;
+        :root {
+            --bg: #0a0a0f;
+            --card: rgba(20, 20, 35, 0.7);
+            --purple: #8b5cf6;
+            --pink: #ec4899;
+            --blue: #3b82f6;
+            --gold: #f59e0b;
+            --text: #e2e8f0;
+            --glass: rgba(255, 255, 255, 0.05);
         }
-        .rdx-main-box {
-            border: 2px solid #ff0000;
-            background: linear-gradient(145deg, #0a0000, #1a0000);
-            box-shadow: 0 0 40px rgba(255, 0, 0, 0.3);
-            position: relative;
-        }
-        .header-glow {
-            font-family: 'Syncopate', sans-serif;
-            text-shadow: 0 0 15px #ff0000;
-            letter-spacing: -2px;
-        }
-        /* Icon Glow System */
-        .icon-box i { font-size: 2.5rem; opacity: 0.1; transition: 0.5s; filter: grayscale(1); }
-        .icon-active { opacity: 1 !important; filter: grayscale(0) !important; transform: scale(1.3); }
-        .yt-active { color: #ff0000; drop-shadow: 0 0 15px #ff0000; }
-        .ig-active { color: #d62976; drop-shadow: 0 0 15px #d62976; }
-        .fb-active { color: #1877f2; drop-shadow: 0 0 15px #1877f2; }
-        .tt-active { color: #fff; drop-shadow: 0 0 15px #fff; }
 
-        .rdx-input {
-            background: #000;
-            border: 1px solid #440000;
-            border-left: 4px solid #ff0000;
-            color: #fff;
-            padding: 18px;
-            width: 100%;
-            outline: none;
-            font-size: 0.9rem;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .rdx-btn {
-            background: #ff0000;
-            color: #000;
-            padding: 15px;
-            font-weight: 900;
-            width: 100%;
-            text-transform: uppercase;
-            clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
-            transition: 0.3s;
-        }
-        .rdx-btn:hover { background: #fff; box-shadow: 0 0 25px #fff; transform: translateY(-2px); }
-        
-        .loader-rdx {
-            width: 50px;
-            height: 10px;
-            background: #220000;
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
             position: relative;
-            overflow: hidden;
-            margin: 10px auto;
         }
-        .loader-rdx::after {
-            content: '';
-            width: 20px;
-            height: 10px;
-            background: #ff0000;
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
             position: absolute;
-            animation: slide 1s infinite linear;
+            border-radius: 50%;
+            animation: floatUp linear infinite;
+            opacity: 0;
         }
-        @keyframes slide { 0% { left: -20px; } 100% { left: 50px; } }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Animated gradient orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.3;
+            animation: orbFloat 8s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--purple);
+            top: -100px;
+            left: -100px;
+        }
+        .orb-2 {
+            width: 350px;
+            height: 350px;
+            background: var(--pink);
+            bottom: -100px;
+            right: -100px;
+            animation-delay: -4s;
+        }
+        .orb-3 {
+            width: 300px;
+            height: 300px;
+            background: var(--blue);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -2s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 95%;
+            max-width: 700px;
+            padding: 20px;
+        }
+
+        /* Glass card */
+        .main-card {
+            background: rgba(15, 15, 25, 0.6);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 40px 35px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5),
+                        0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+                        0 0 100px rgba(139, 92, 246, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .main-card:hover {
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6),
+                        0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+                        0 0 150px rgba(139, 92, 246, 0.2);
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--purple), var(--pink));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
+            }
+            50% {
+                box-shadow: 0 15px 35px rgba(236, 72, 153, 0.6);
+            }
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e9d5ff, #fce7f3, #bfdbfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+        }
+
+        .premium-badge {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            color: #000;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 5px 20px rgba(245, 158, 11, 0.4);
+            animation: glowBadge 2s ease-in-out infinite;
+        }
+
+        @keyframes glowBadge {
+            0%, 100% {
+                box-shadow: 0 5px 20px rgba(245, 158, 11, 0.4);
+            }
+            50% {
+                box-shadow: 0 8px 30px rgba(245, 158, 11, 0.7);
+            }
+        }
+
+        /* URL Input */
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .url-input-group {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 60px;
+            padding: 5px 5px 5px 22px;
+            transition: all 0.3s;
+        }
+
+        .url-input-group:focus-within {
+            border-color: var(--purple);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15),
+                        0 0 30px rgba(139, 92, 246, 0.2);
+        }
+
+        .url-input-group i {
+            color: var(--purple);
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        .url-input-group input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 16px 5px;
+            color: white;
+            font-size: 15px;
+            outline: none;
+            font-weight: 500;
+        }
+
+        .url-input-group input::placeholder {
+            color: #555;
+            font-weight: 400;
+        }
+
+        .paste-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            padding: 10px 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .paste-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+
+        /* Platform Selector */
+        .platforms {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .platform-btn {
+            flex: 1;
+            min-width: 100px;
+            padding: 13px 15px;
+            border-radius: 20px;
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+            color: #999;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .platform-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ddd;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .platform-btn.active {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.3));
+            border-color: var(--purple);
+            color: white;
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Download Button */
+        .download-main-btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 60px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            color: white;
+            background: linear-gradient(135deg, var(--purple), var(--pink), var(--blue));
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.4);
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .download-main-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 45px rgba(139, 92, 246, 0.6);
+        }
+
+        .download-main-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            animation: none;
+        }
+
+        /* Loading Animation */
+        .loading-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 0 20px;
+        }
+
+        .loading-container.active {
+            display: flex;
+        }
+
+        .spinner-ring {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid var(--purple);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            color: #aaa;
+            font-size: 14px;
+            font-weight: 500;
+            animation: fadeText 1.5s ease-in-out infinite;
+        }
+
+        @keyframes fadeText {
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Result */
+        .result-area {
+            display: none;
+            margin-top: 25px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            animation: slideUp 0.4s ease;
+        }
+
+        .result-area.active {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-content {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .result-thumb {
+            width: 90px;
+            height: 90px;
+            border-radius: 16px;
+            object-fit: cover;
+            background: #1a1a2e;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .result-info {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .result-title {
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .result-badges {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-format {
+            background: rgba(139, 92, 246, 0.3);
+            color: #c4b5fd;
+        }
+
+        .badge-quality {
+            background: rgba(34, 197, 94, 0.2);
+            color: #86efac;
+        }
+
+        .download-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .dl-btn {
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .dl-btn-primary {
+            background: white;
+            color: #000;
+        }
+
+        .dl-btn-primary:hover {
+            background: #e2e8f0;
+            transform: scale(1.03);
+        }
+
+        .dl-btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .dl-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Error */
+        .error-box {
+            display: none;
+            margin-top: 20px;
+            padding: 15px 20px;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 15px;
+            color: #fca5a5;
+            font-size: 14px;
+            text-align: center;
+            animation: slideUp 0.4s ease;
+        }
+
+        .error-box.active {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .main-card {
+                padding: 25px 20px;
+                border-radius: 25px;
+            }
+            .logo-text {
+                font-size: 22px;
+            }
+            .platform-btn {
+                font-size: 11px;
+                padding: 10px 8px;
+            }
+            .url-input-group input {
+                font-size: 13px;
+                padding: 14px 5px;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-6">
+<body>
 
-    <div class="w-full max-w-xl">
-        <div class="text-center mb-12">
-            <h1 class="header-glow text-5xl md:text-6xl italic">AHMAD<span class="text-white">RDX</span></h1>
-            <p class="text-[9px] tracking-[12px] uppercase opacity-60 mt-2">Multi-Platform Extraction System</p>
-        </div>
+    <!-- Ambient orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
 
-        <div class="rdx-main-box p-8 md:p-10 rounded-sm">
-            <div class="icon-box flex justify-between mb-10 border-b border-red-900/30 pb-8">
-                <i id="i-yt" class="fa-brands fa-youtube"></i>
-                <i id="i-ig" class="fa-brands fa-instagram"></i>
-                <i id="i-fb" class="fa-brands fa-facebook"></i>
-                <i id="i-tt" class="fa-brands fa-tiktok"></i>
-            </div>
+    <!-- Particles -->
+    <div class="particles" id="particles"></div>
 
-            <div class="space-y-6">
-                <input type="text" id="urlInp" oninput="checkPlatform()" placeholder="PASTE TARGET URL HERE..." class="rdx-input">
-                
-                <button onclick="fetchRDX()" id="mainBtn" class="rdx-btn">Initialize Fetch</button>
-            </div>
-
-            <div id="statusArea" class="mt-8 hidden border-t border-red-900/50 pt-6">
-                <div id="loadUI" class="text-center hidden">
-                    <div class="loader-rdx"></div>
-                    <p class="text-[10px] animate-pulse">BYPASSING SECURITY...</p>
+    <!-- Main -->
+    <div class="container">
+        <div class="main-card">
+            <!-- Header -->
+            <div class="header">
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <span class="logo-text">VidFlow Pro</span>
                 </div>
-
-                <div id="resultUI" class="hidden text-center">
-                    <div class="bg-red-600 text-black py-1 px-3 text-[10px] font-bold mb-3 inline-block">SUCCESS</div>
-                    <p id="vidTitle" class="text-white text-xs truncate mb-5"></p>
-                    <a id="finalDl" href="#" target="_blank" class="block w-full border-2 border-white text-white py-3 hover:bg-white hover:text-black transition font-bold uppercase tracking-widest text-sm">Download Media</a>
+                <div class="premium-badge">
+                    <i class="fas fa-crown"></i> PREMIUM
                 </div>
             </div>
-        </div>
 
-        <p class="text-center mt-10 text-[10px] opacity-20 uppercase tracking-[5px]">AHMAD RDX SYSTEM V1.5.0</p>
+            <!-- URL Input -->
+            <div class="input-wrapper">
+                <div class="url-input-group">
+                    <i class="fas fa-link"></i>
+                    <input type="text" id="urlInput" placeholder="Paste video link here..." autocomplete="off">
+                    <button class="paste-btn" onclick="pasteURL()">
+                        <i class="far fa-clipboard"></i> Paste
+                    </button>
+                </div>
+            </div>
+
+            <!-- Platform Buttons -->
+            <div class="platforms" id="platforms">
+                <button class="platform-btn active" data-platform="tiktok">
+                    <i class="fab fa-tiktok"></i> TikTok
+                </button>
+                <button class="platform-btn" data-platform="instagram">
+                    <i class="fab fa-instagram"></i> Instagram
+                </button>
+                <button class="platform-btn" data-platform="facebook">
+                    <i class="fab fa-facebook"></i> Facebook
+                </button>
+                <button class="platform-btn" data-platform="youtube">
+                    <i class="fab fa-youtube"></i> YouTube
+                </button>
+            </div>
+
+            <!-- Download Button -->
+            <button class="download-main-btn" id="downloadBtn" onclick="startDownload()">
+                <i class="fas fa-cloud-download-alt"></i> Download Video
+            </button>
+
+            <!-- Loading -->
+            <div class="loading-container" id="loadingContainer">
+                <div class="spinner-ring"></div>
+                <p class="loading-text">Fetching your video...</p>
+            </div>
+
+            <!-- Result -->
+            <div class="result-area" id="resultArea">
+                <div id="resultContent"></div>
+            </div>
+
+            <!-- Error -->
+            <div class="error-box" id="errorBox"></div>
+        </div>
     </div>
 
     <script>
-        function checkPlatform() {
-            const val = document.getElementById('urlInp').value.toLowerCase();
-            const icons = document.querySelectorAll('.icon-box i');
-            icons.forEach(i => i.className = i.className.replace(/icon-active|yt-active|ig-active|fb-active|tt-active/g, ''));
+        // ============ PARTICLES ============
+        const particlesContainer = document.getElementById('particles');
+        const colors = ['#8b5cf6', '#ec4899', '#3b82f6', '#f59e0b', '#10b981', '#6366f1'];
 
-            if(val.includes('youtu')) document.getElementById('i-yt').classList.add('icon-active', 'yt-active');
-            else if(val.includes('insta')) document.getElementById('i-ig').classList.add('icon-active', 'ig-active');
-            else if(val.includes('facebook') || val.includes('fb.watch')) document.getElementById('i-fb').classList.add('icon-active', 'fb-active');
-            else if(val.includes('tiktok')) document.getElementById('i-tt').classList.add('icon-active', 'tt-active');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            const size = Math.random() * 6 + 2;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.animationDuration = Math.random() * 10 + 8 + 's';
+            particle.style.animationDelay = Math.random() * 10 + 's';
+            particlesContainer.appendChild(particle);
         }
 
-        async function fetchRDX() {
-            const url = document.getElementById('urlInp').value;
-            if(!url) return alert("EMPTY_URL_ERROR");
+        // ============ PLATFORM SWITCH ============
+        let currentPlatform = 'tiktok';
+        const platformBtns = document.querySelectorAll('.platform-btn');
 
-            const st = document.getElementById('statusArea');
-            const ld = document.getElementById('loadUI');
-            const rs = document.getElementById('resultUI');
-            const btn = document.getElementById('mainBtn');
+        platformBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                platformBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentPlatform = btn.dataset.platform;
+                hideAll();
+            });
+        });
 
-            st.classList.remove('hidden');
-            ld.classList.remove('hidden');
-            rs.classList.add('hidden');
-            btn.disabled = true;
-            btn.style.opacity = "0.5";
-
+        // ============ PASTE ============
+        async function pasteURL() {
             try {
-                // Using the Arif-Babu Downloader Logic API version
-                const response = await fetch(`https://api.shaan.xyz/alldown?url=${encodeURIComponent(url)}`);
-                const res = await response.json();
-
-                if(res && res.data) {
-                    const dl = res.data.high || res.data.low;
-                    document.getElementById('vidTitle').innerText = res.data.title || "RDX_FILE_EXTRACTED";
-                    document.getElementById('finalDl').href = dl;
-                    
-                    ld.classList.add('hidden');
-                    rs.classList.remove('hidden');
-                } else {
-                    throw new Error();
-                }
-            } catch (e) {
-                alert("API_REJECTED: Trying Backup...");
-                // Fallback direct download link attempt
-                window.open(`https://api.cobalt.tools/api/json?url=${encodeURIComponent(url)}`);
-                st.classList.add('hidden');
-            } finally {
-                btn.disabled = false;
-                btn.style.opacity = "1";
+                const text = await navigator.clipboard.readText();
+                document.getElementById('urlInput').value = text;
+            } catch {
+                alert('Unable to paste. Please paste manually.');
             }
         }
+
+        // ============ DOWNLOAD ============
+        async function startDownload() {
+            const url = document.getElementById('urlInput').value.trim();
+            if (!url) {
+                showError('Please enter a video URL first');
+                return;
+            }
+
+            showLoading();
+
+            try {
+                let data;
+                const apiKey = 'freeApikey';
+                const encodedUrl = encodeURIComponent(url);
+
+                switch (currentPlatform) {
+                    case 'tiktok':
+                        data = await fetchAPI(`https://anabot.my.id/api/download/tiktok?url=${encodedUrl}&apikey=${apiKey}`);
+                        break;
+                    case 'instagram':
+                        data = await fetchAPI(`https://anabot.my.id/api/download/instagram?url=${encodedUrl}&apikey=${apiKey}`);
+                        break;
+                    case 'facebook':
+                        data = await fetchAPI(`https://anabot.my.id/api/download/facebook?url=${encodedUrl}&apikey=${apiKey}`);
+                        break;
+                    case 'youtube':
+                        data = await fetchAPI(
+                            `https://kojaxd-api.vercel.app/downloader/ytmp4?apikey=Koja-5d5acdde3e2ab95585d4ebc888684266&url=${encodedUrl}&format=Mp4`
+                        );
+                        break;
+                }
+
+                if (data?.data) {
+                    showResult(data, currentPlatform);
+                } else if (data?.download) {
+                    showResult({ data }, currentPlatform);
+                } else {
+                    showError(data?.message || 'No download link found for this video');
+                }
+            } catch (err) {
+                console.error(err);
+                showError('Something went wrong. Please check the URL or try again.');
+            }
+        }
+
+        async function fetchAPI(url) {
+            const res = await fetch(url);
+            if (!res.ok) throw new Error('API error');
+            return await res.json();
+        }
+
+        // ============ UI HELPERS ============
+        function showLoading() {
+            document.getElementById('loadingContainer').classList.add('active');
+            document.getElementById('resultArea').classList.remove('active');
+            document.getElementById('errorBox').classList.remove('active');
+            document.getElementById('downloadBtn').disabled = true;
+        }
+
+        function hideAll() {
+            document.getElementById('loadingContainer').classList.remove('active');
+            document.getElementById('resultArea').classList.remove('active');
+            document.getElementById('errorBox').classList.remove('active');
+            document.getElementById('downloadBtn').disabled = false;
+        }
+
+        function showResult(data, platform) {
+            document.getElementById('loadingContainer').classList.remove('active');
+            document.getElementById('errorBox').classList.remove('active');
+            document.getElementById('downloadBtn').disabled = false;
+
+            const d = data.data;
+            const title = d.title || d.description || 'Untitled Video';
+            const thumbnail = d.thumbnail || d.thumb || '';
+            const downloadUrl = d.download || d.video || d.url || d.high || '';
+            const format = d.format || 'MP4';
+
+            if (!downloadUrl) {
+                showError('Download link not available');
+                return;
+            }
+
+            const resultArea = document.getElementById('resultArea');
+            const resultContent = document.getElementById('resultContent');
+
+            resultContent.innerHTML = `
+                        <div class="result-content">
+                            ${thumbnail ? `<img src="${thumbnail}" class="result-thumb" alt="thumb" onerror="this.style.display='none'">` : ''}
+                            <div class="result-info">
+                                <div class="result-title">${escapeHTML(title)}</div>
+                                <div class="result-badges">
+                                    <span class="badge badge-format"><i class="fas fa-film"></i> ${escapeHTML(format)}</span>
+                                    <span class="badge badge-quality"><i class="fas fa-star"></i> HD</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="download-actions">
+                            <a href="${downloadUrl}" target="_blank" rel="noopener" class="dl-btn dl-btn-primary">
+                                <i class="fas fa-download"></i> Download Now
+                            </a>
+                            <button class="dl-btn dl-btn-secondary" onclick="copyLink('${downloadUrl.replace(/'/g, "\\'")}')">
+                                <i class="far fa-copy"></i> Copy Link
+                            </button>
+                        </div>
+                    `;
+
+            resultArea.classList.add('active');
+        }
+
+        function showError(msg) {
+            document.getElementById('loadingContainer').classList.remove('active');
+            document.getElementById('resultArea').classList.remove('active');
+            document.getElementById('downloadBtn').disabled = false;
+
+            const errorBox = document.getElementById('errorBox');
+            errorBox.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${escapeHTML(msg)}`;
+            errorBox.classList.add('active');
+        }
+
+        function copyLink(url) {
+            navigator.clipboard.writeText(url).then(() => {
+                alert('Link copied to clipboard!');
+            });
+        }
+
+        function escapeHTML(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        // Enter key to download
+        document.getElementById('urlInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') startDownload();
+        });
     </script>
 </body>
 </html>
