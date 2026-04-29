@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AHMII Downloader | Premium Media Saver</title>
+    <title>AHMAD RDX | Premium Media Downloader</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -15,17 +15,26 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
+                    fontFamily: { 
+                        sans: ['Poppins', 'sans-serif'],
+                        brand: ['Rajdhani', 'sans-serif']
+                    },
+                    colors: {
+                        rdxRed: '#ff003c',
+                        rdxDark: '#0a0a0a',
+                    },
                     animation: {
-                        'blob': 'blob 7s infinite',
-                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'pulse-glow': 'pulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'slide-up': 'slideUp 0.5s ease-out forwards',
                     },
                     keyframes: {
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 0 15px rgba(255, 0, 60, 0.3)' },
+                            '50%': { boxShadow: '0 0 30px rgba(255, 0, 60, 0.6)' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
                         }
                     }
                 }
@@ -34,149 +43,127 @@
     </script>
 
     <style>
-        /* Premium Glassmorphism & Custom Styles */
+        /* AHMAD RDX Premium Dark Theme Elements */
         body {
-            background-color: #0f172a; /* Fallback dark */
+            background-color: #050505;
+            background-image: radial-gradient(circle at 50% 0%, #2a000a 0%, #050505 50%);
+            color: #ffffff;
+            min-height: 100vh;
         }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        
+        .rdx-glass {
+            background: rgba(15, 15, 15, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 0, 60, 0.15);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
         }
-        .input-glass {
-            background: rgba(0, 0, 0, 0.2);
+
+        .rdx-input {
+            background: rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: white;
             transition: all 0.3s ease;
         }
-        .input-glass:focus {
+
+        .rdx-input:focus {
             outline: none;
-            border-color: #ec4899; /* Pink glow */
-            box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
-            background: rgba(0, 0, 0, 0.4);
-        }
-        
-        /* Platform Radio Buttons Magic */
-        input[type="radio"] { display: none; }
-        .platform-label {
-            transition: all 0.3s ease;
-            filter: grayscale(100%);
-            opacity: 0.6;
-        }
-        input[type="radio"]:checked + .platform-label {
-            filter: grayscale(0%);
-            opacity: 1;
-            transform: scale(1.1);
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(255,255,255,0.3);
-            box-shadow: 0 0 20px rgba(255,255,255,0.1);
+            border-color: #ff003c;
+            box-shadow: 0 0 20px rgba(255, 0, 60, 0.2);
+            background: rgba(20, 0, 5, 0.8);
         }
 
-        /* Gradient Text */
-        .text-gradient {
-            background: linear-gradient(to right, #ec4899, #8b5cf6, #3b82f6);
+        /* Animated Title Text */
+        .rdx-text-gradient {
+            background: linear-gradient(90deg, #ff003c, #ff4d4d, #ff003c);
+            background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: gradientMove 3s linear infinite;
         }
 
-        /* Loading Spinner */
-        .loader {
-            border: 4px solid rgba(255,255,255,0.1);
-            border-left-color: #ec4899;
-            border-radius: 50%;
+        @keyframes gradientMove {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* Custom Loader */
+        .rdx-loader {
             width: 24px;
             height: 24px;
-            animation: spin 1s linear infinite;
+            border: 3px solid rgba(255, 0, 60, 0.2);
+            border-bottom-color: #ff003c;
+            border-radius: 50%;
             display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="relative min-h-screen text-white overflow-x-hidden flex items-center justify-center p-4">
+<body class="relative overflow-x-hidden flex flex-col items-center justify-center p-4">
 
-    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <div class="absolute top-0 -left-4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob"></div>
-        <div class="absolute top-0 -right-4 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob animation-delay-2000"></div>
-        <div class="absolute -bottom-8 left-20 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob animation-delay-4000"></div>
+    <div class="absolute top-6 left-0 right-0 text-center z-20">
+        <h2 class="font-brand text-2xl tracking-[0.3em] text-white/40 uppercase">Powered by</h2>
     </div>
 
-    <main class="relative z-10 w-full max-w-2xl glass-panel rounded-3xl p-6 sm:p-10 mx-auto">
+    <main class="relative z-10 w-full max-w-2xl rdx-glass rounded-3xl p-6 sm:p-10 mx-auto mt-12 animate-slide-up">
         
         <div class="text-center mb-10">
-            <h1 class="text-4xl sm:text-5xl font-bold mb-3 tracking-tight">
-                AHMII <span class="text-gradient">Downloader</span>
+            <h1 class="font-brand text-5xl sm:text-6xl font-bold mb-2 uppercase tracking-wider">
+                AHMAD <span class="rdx-text-gradient">RDX</span>
             </h1>
-            <p class="text-gray-400 text-sm sm:text-base font-light">Download high-quality media from your favorite platforms.</p>
+            <p class="text-gray-400 text-sm sm:text-base">Universal Media Downloader • YT, IG, FB, TT</p>
         </div>
 
-        <div class="flex justify-center gap-3 sm:gap-6 mb-8">
-            <label class="cursor-pointer">
-                <input type="radio" name="platform" value="youtube" checked onchange="updateUI()">
-                <div class="platform-label flex flex-col items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-2xl border border-transparent">
-                    <i class="fa-brands fa-youtube text-3xl text-red-500 mb-1"></i>
-                    <span class="text-xs font-medium">YouTube</span>
-                </div>
-            </label>
-            <label class="cursor-pointer">
-                <input type="radio" name="platform" value="instagram" onchange="updateUI()">
-                <div class="platform-label flex flex-col items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-2xl border border-transparent">
-                    <i class="fa-brands fa-instagram text-3xl text-pink-500 mb-1"></i>
-                    <span class="text-xs font-medium">Insta</span>
-                </div>
-            </label>
-            <label class="cursor-pointer">
-                <input type="radio" name="platform" value="tiktok" onchange="updateUI()">
-                <div class="platform-label flex flex-col items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-2xl border border-transparent">
-                    <i class="fa-brands fa-tiktok text-3xl text-white mb-1"></i>
-                    <span class="text-xs font-medium">TikTok</span>
-                </div>
-            </label>
-            <label class="cursor-pointer">
-                <input type="radio" name="platform" value="facebook" onchange="updateUI()">
-                <div class="platform-label flex flex-col items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-2xl border border-transparent">
-                    <i class="fa-brands fa-facebook text-3xl text-blue-500 mb-1"></i>
-                    <span class="text-xs font-medium">Facebook</span>
-                </div>
-            </label>
+        <div class="flex justify-center gap-4 sm:gap-6 mb-8 opacity-70">
+            <i class="fa-brands fa-youtube text-2xl sm:text-3xl text-gray-500 hover:text-red-500 transition"></i>
+            <i class="fa-brands fa-instagram text-2xl sm:text-3xl text-gray-500 hover:text-pink-500 transition"></i>
+            <i class="fa-brands fa-tiktok text-2xl sm:text-3xl text-gray-500 hover:text-white transition"></i>
+            <i class="fa-brands fa-facebook text-2xl sm:text-3xl text-gray-500 hover:text-blue-500 transition"></i>
+            <i class="fa-brands fa-x-twitter text-2xl sm:text-3xl text-gray-500 hover:text-white transition"></i>
         </div>
 
-        <div class="space-y-4">
+        <div class="space-y-5">
             <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <i class="fa-solid fa-link text-gray-400"></i>
+                    <i class="fa-solid fa-link text-rdxRed"></i>
                 </div>
-                <input type="url" id="mediaUrl" placeholder="Paste YouTube link here..." 
-                       class="w-full pl-12 pr-4 py-4 rounded-xl input-glass text-sm sm:text-base placeholder-gray-500">
+                <input type="url" id="mediaUrl" placeholder="Paste any video link here..." 
+                       class="w-full pl-12 pr-4 py-4 rounded-xl rdx-input text-sm sm:text-base">
             </div>
 
-            <div id="ytFormatContainer" class="flex gap-4 transition-all duration-300">
-                <select id="ytFormat" class="w-full p-4 rounded-xl input-glass text-sm appearance-none cursor-pointer">
-                    <option value="Mp4" class="text-black">MP4 (Video)</option>
-                    <option value="Mp3" class="text-black">MP3 (Audio)</option>
+            <div class="flex gap-4">
+                <select id="mediaFormat" class="w-full p-4 rounded-xl rdx-input text-sm appearance-none cursor-pointer">
+                    <option value="video" class="text-black">🎬 Video (MP4)</option>
+                    <option value="audio" class="text-black">🎵 Audio (MP3)</option>
                 </select>
                 <div class="absolute right-6 mt-4 pointer-events-none">
                     <i class="fa-solid fa-chevron-down text-gray-400"></i>
                 </div>
             </div>
 
-            <button id="downloadBtn" onclick="processDownload()" 
-                    class="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 text-white font-bold py-4 rounded-xl shadow-lg transform transition hover:-translate-y-1 hover:shadow-pink-500/25 flex justify-center items-center gap-2">
-                <span id="btnText">Fetch Media</span>
-                <i id="btnIcon" class="fa-solid fa-cloud-arrow-down"></i>
-                <div id="btnLoader" class="loader hidden"></div>
+            <button id="downloadBtn" onclick="fetchMedia()" 
+                    class="w-full bg-rdxRed hover:bg-red-700 text-white font-brand text-xl font-bold py-4 rounded-xl shadow-[0_0_15px_rgba(255,0,60,0.4)] hover:shadow-[0_0_25px_rgba(255,0,60,0.6)] transform transition duration-300 flex justify-center items-center gap-3 uppercase tracking-wide">
+                <span id="btnText">Generate Link</span>
+                <i id="btnIcon" class="fa-solid fa-bolt"></i>
+                <div id="btnLoader" class="rdx-loader hidden"></div>
             </button>
         </div>
 
         <div id="resultContainer" class="mt-8 hidden opacity-0 transition-opacity duration-500">
-            <div class="glass-panel p-4 rounded-2xl flex flex-col items-center text-center space-y-4 border-green-400/30">
-                <div id="errorMsg" class="hidden text-red-400 text-sm font-medium w-full p-3 bg-red-900/20 rounded-lg border border-red-500/30"></div>
+            <div class="rdx-glass p-6 rounded-2xl flex flex-col items-center text-center space-y-4">
                 
-                <div id="successBox" class="hidden w-full space-y-4 flex flex-col items-center">
-                    <img id="thumbImg" src="" alt="Thumbnail" class="w-full max-h-48 object-cover rounded-xl shadow-lg hidden">
-                    <h3 id="mediaTitle" class="text-sm sm:text-base font-semibold text-gray-200 line-clamp-2"></h3>
-                    <div id="downloadLinks" class="w-full flex flex-col gap-3">
+                <div id="errorMsg" class="hidden text-red-200 text-sm font-medium w-full p-4 bg-red-900/40 rounded-xl border border-red-500/50"></div>
+                
+                <div id="successBox" class="hidden w-full space-y-5 flex flex-col items-center">
+                    <div class="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mb-2">
+                        <i class="fa-solid fa-check text-2xl text-green-400"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white">Media Ready!</h3>
+                    <p class="text-xs text-gray-400 pb-2">Your file has been successfully processed by AHMAD RDX servers.</p>
+                    
+                    <div id="downloadLinks" class="w-full">
                         </div>
                 </div>
             </div>
@@ -184,171 +171,86 @@
 
     </main>
 
+    <footer class="mt-12 text-center text-gray-600 text-sm font-brand tracking-widest z-10">
+        © 2026 AHMAD RDX. ALL RIGHTS RESERVED.
+    </footer>
+
     <script>
-        // API Keys Configuration
-        const ANA_API_KEY = 'freeApikey';
-        const KOJA_API_KEY = 'Koja-5d5acdde3e2ab95585d4ebc888684266';
+        async function fetchMedia() {
+            const urlInput = document.getElementById('mediaUrl').value.trim();
+            const format = document.getElementById('mediaFormat').value; // 'video' or 'audio'
 
-        // UI Update on Platform Change
-        function updateUI() {
-            const platform = document.querySelector('input[name="platform"]:checked').value;
-            const urlInput = document.getElementById('mediaUrl');
-            const ytFormatContainer = document.getElementById('ytFormatContainer');
-
-            // Reset Result Box
-            hideResult();
-
-            // Update Placeholder
-            const placeholders = {
-                'youtube': 'Paste YouTube link here...',
-                'instagram': 'Paste Instagram Reel/Post link...',
-                'tiktok': 'Paste TikTok video link...',
-                'facebook': 'Paste Facebook video link...'
-            };
-            urlInput.placeholder = placeholders[platform];
-
-            // Toggle Format Selector
-            if (platform === 'youtube') {
-                ytFormatContainer.classList.remove('hidden');
-                setTimeout(() => ytFormatContainer.classList.remove('opacity-0'), 10);
-            } else {
-                ytFormatContainer.classList.add('opacity-0');
-                setTimeout(() => ytFormatContainer.classList.add('hidden'), 300);
-            }
-        }
-
-        // Main Fetch Logic
-        async function processDownload() {
-            const url = document.getElementById('mediaUrl').value.trim();
-            const platform = document.querySelector('input[name="platform"]:checked').value;
-            const format = document.getElementById('ytFormat').value;
-
-            if (!url) {
-                showError("Please enter a valid URL first.");
+            if (!urlInput) {
+                showError("Please paste a valid video link first.");
                 return;
             }
 
             setLoadingState(true);
 
             try {
-                let apiUrl = '';
-                
-                // Select API Endpoint based on platform
-                if (platform === 'youtube') {
-                    apiUrl = `https://kojaxd-api.vercel.app/downloader/ytmp4?apikey=${KOJA_API_KEY}&url=${encodeURIComponent(url)}&format=${format}`;
-                } else {
-                    apiUrl = `https://anabot.my.id/api/download/${platform}?url=${encodeURIComponent(url)}&apikey=${ANA_API_KEY}`;
-                }
+                // Using Cobalt API: The most powerful universal free API for all platforms
+                const response = await fetch('https://co.wuk.sh/api/json', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        url: urlInput,
+                        vQuality: "720",
+                        isAudioOnly: format === 'audio',
+                        aFormat: "mp3",
+                        isNoTTWatermark: true // removes tiktok watermark
+                    })
+                });
 
-                const response = await fetch(apiUrl, { method: 'GET' });
                 const data = await response.json();
 
-                renderResult(data, platform);
+                if (data.status === 'error' || data.status === 'rate-limit') {
+                    throw new Error(data.text || "Failed to process the link. The video might be private or invalid.");
+                }
+
+                // If Cobalt returns a redirect or stream URL
+                if (data.url) {
+                    renderSuccess(data.url, format);
+                } else {
+                    throw new Error("Download link not found in server response.");
+                }
 
             } catch (error) {
-                console.error(error);
-                showError("Network error or API is currently unreachable. Please try again.");
+                console.error("RDX Downloader Error:", error);
+                showError(error.message || "Network error. Please check your internet connection and try again.");
             } finally {
                 setLoadingState(false);
             }
         }
 
-        // Response Parser & Renderer
-        function renderResult(data, platform) {
+        function renderSuccess(downloadUrl, format) {
             const successBox = document.getElementById('successBox');
-            const downloadLinks = document.getElementById('downloadLinks');
-            const thumbImg = document.getElementById('thumbImg');
-            const mediaTitle = document.getElementById('mediaTitle');
             const errorMsg = document.getElementById('errorMsg');
-
-            // Reset
-            downloadLinks.innerHTML = '';
-            thumbImg.classList.add('hidden');
-            mediaTitle.innerText = '';
+            const downloadLinks = document.getElementById('downloadLinks');
+            
             errorMsg.classList.add('hidden');
             successBox.classList.remove('hidden');
+            downloadLinks.innerHTML = '';
 
-            let parsedLinks = [];
-            let titleText = "Media Ready to Download";
-            let thumbUrl = "";
+            const btnText = format === 'audio' ? 'Download MP3 Audio' : 'Download MP4 Video';
+            const icon = format === 'audio' ? 'fa-music' : 'fa-film';
 
-            // Handle YouTube Format (Koja API)
-            if (platform === 'youtube' && data.success && data.data) {
-                titleText = data.data.title || titleText;
-                thumbUrl = data.data.thumbnail || "";
-                if(data.data.download) {
-                    parsedLinks.push({ label: `Download ${data.data.format} File`, url: data.data.download });
-                }
-            } 
-            // Handle Other Formats (Ana API)
-            else {
-                // Ana API structure check (Flexible fallback since structure varies)
-                let target = data.result || data.data || data;
-                
-                if (data.status === false || target === null) {
-                    showError(data.message || "Could not extract media. Is the link private or invalid?");
-                    return;
-                }
-
-                if (typeof target === 'object') {
-                    if (target.title) titleText = target.title;
-                    if (target.desc) titleText = target.desc; // tiktok fallback
-                    if (target.thumbnail || target.cover) thumbUrl = target.thumbnail || target.cover;
-
-                    // Extract all possible download links
-                    const possibleKeys = ['hd', 'sd', 'video', 'video_hd', 'video_watermark', 'video_no_watermark', 'audio', 'url', 'download'];
-                    
-                    possibleKeys.forEach(key => {
-                        if (target[key] && typeof target[key] === 'string' && target[key].startsWith('http')) {
-                            let label = key.replace(/_/g, ' ').toUpperCase();
-                            parsedLinks.push({ label: `Download ${label}`, url: target[key] });
-                        }
-                    });
-
-                    // Array of URLs (Like Instagram carousels)
-                    if (Array.isArray(target)) {
-                        target.forEach((item, idx) => {
-                            let link = item.url || item.download || (typeof item === 'string' ? item : null);
-                            if (link && link.startsWith('http')) {
-                                parsedLinks.push({ label: `Download Media Part ${idx + 1}`, url: link });
-                            }
-                        });
-                    }
-                } else if (typeof target === 'string' && target.startsWith('http')) {
-                    parsedLinks.push({ label: "Download Media", url: target });
-                }
-            }
-
-            // If no links found
-            if (parsedLinks.length === 0) {
-                showError("Failed to parse download links from API response. Try another link.");
-                return;
-            }
-
-            // Populate UI
-            mediaTitle.innerText = titleText;
-            if (thumbUrl) {
-                thumbImg.src = thumbUrl;
-                thumbImg.classList.remove('hidden');
-            }
-
-            // Build buttons
-            parsedLinks.forEach(item => {
-                const a = document.createElement('a');
-                a.href = item.url;
-                a.target = "_blank";
-                a.className = "w-full flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white py-3 px-4 rounded-xl transition duration-300 font-medium group";
-                a.innerHTML = `
-                    <i class="fa-solid fa-download group-hover:-translate-y-1 transition transform duration-300"></i>
-                    ${item.label}
-                `;
-                downloadLinks.appendChild(a);
-            });
-
+            const a = document.createElement('a');
+            a.href = downloadUrl;
+            a.target = "_blank";
+            a.className = "w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-200 text-black font-bold py-4 px-4 rounded-xl transition duration-300 group";
+            a.innerHTML = `
+                <i class="fa-solid ${icon} group-hover:scale-110 transition transform duration-300"></i>
+                <span>${btnText}</span>
+                <i class="fa-solid fa-download ml-2 text-rdxRed"></i>
+            `;
+            
+            downloadLinks.appendChild(a);
             showResultBox();
         }
 
-        // UI Helpers
         function setLoadingState(isLoading) {
             const btnText = document.getElementById('btnText');
             const btnIcon = document.getElementById('btnIcon');
@@ -359,14 +261,14 @@
                 btnText.innerText = "Processing...";
                 btnIcon.classList.add('hidden');
                 btnLoader.classList.remove('hidden');
-                btn.classList.add('opacity-80', 'cursor-not-allowed', 'animate-pulse');
+                btn.classList.add('opacity-70', 'cursor-not-allowed');
                 btn.disabled = true;
                 hideResult();
             } else {
-                btnText.innerText = "Fetch Media";
+                btnText.innerText = "Generate Link";
                 btnIcon.classList.remove('hidden');
                 btnLoader.classList.add('hidden');
-                btn.classList.remove('opacity-80', 'cursor-not-allowed', 'animate-pulse');
+                btn.classList.remove('opacity-70', 'cursor-not-allowed');
                 btn.disabled = false;
             }
         }
@@ -376,7 +278,8 @@
             const errorMsg = document.getElementById('errorMsg');
             const successBox = document.getElementById('successBox');
             successBox.classList.add('hidden');
-            errorMsg.innerText = msg;
+            
+            errorMsg.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-2"></i> ${msg}`;
             errorMsg.classList.remove('hidden');
             showResultBox();
         }
@@ -391,16 +294,11 @@
         function showResultBox() {
             const box = document.getElementById('resultContainer');
             box.classList.remove('hidden');
-            // Small delay to trigger CSS transition
             setTimeout(() => {
                 box.classList.remove('opacity-0');
                 box.classList.add('opacity-100');
             }, 50);
         }
-
-        // Initialize state on load
-        window.onload = updateUI;
     </script>
 </body>
-  </html>
-
+</html>
