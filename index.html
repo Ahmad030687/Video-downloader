@@ -1,1111 +1,601 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocialVault - Premium Video Downloader</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg: #0a0a0f;
-            --surface: #13131a;
-            --surface2: #1a1a24;
-            --border: #252535;
-            --text: #e8e8f0;
-            --text2: #9898b0;
-            --accent: #6c5ce7;
-            --accent2: #a855f7;
-            --accent3: #6366f1;
-            --red: #ef4444;
-            --green: #22c55e;
-            --yellow: #eab308;
-            --blue: #3b82f6;
-            --pink: #ec4899;
-            --gradient1: linear-gradient(135deg, #6c5ce7, #a855f7);
-            --gradient2: linear-gradient(135deg, #6366f1, #8b5cf6);
-            --gradient3: linear-gradient(135deg, #ec4899, #f43f5e);
-            --gradient4: linear-gradient(135deg, #3b82f6, #06b6d4);
-            --shadow: 0 4px 30px rgba(0,0,0,0.5);
-            --shadow-glow: 0 0 40px rgba(108,92,231,0.3);
-            --radius: 16px;
-            --radius-sm: 10px;
-            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        body {
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Animated Background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .bg-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.15;
-            animation: orbFloat 20s ease-in-out infinite;
-        }
-
-        .bg-orb:nth-child(1) {
-            width: 400px;
-            height: 400px;
-            background: #6c5ce7;
-            top: -100px;
-            left: -100px;
-            animation-delay: 0s;
-        }
-
-        .bg-orb:nth-child(2) {
-            width: 350px;
-            height: 350px;
-            background: #a855f7;
-            top: 50%;
-            right: -100px;
-            animation-delay: -7s;
-        }
-
-        .bg-orb:nth-child(3) {
-            width: 300px;
-            height: 300px;
-            background: #ec4899;
-            bottom: -100px;
-            left: 30%;
-            animation-delay: -14s;
-        }
-
-        @keyframes orbFloat {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(100px, -50px) scale(1.1); }
-            50% { transform: translate(50px, 100px) scale(0.9); }
-            75% { transform: translate(-50px, 50px) scale(1.05); }
-        }
-
-        /* Main Container */
-        .main-container {
-            position: relative;
-            z-index: 1;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px 20px 40px;
-        }
-
-        /* Header */
-        .header {
-            text-align: center;
-            padding: 40px 20px 20px;
-        }
-
-        .logo {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 8px;
-        }
-
-        .logo-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--gradient1);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            box-shadow: var(--shadow-glow);
-        }
-
-        .logo-text {
-            font-size: 32px;
-            font-weight: 800;
-            background: var(--gradient2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -1px;
-        }
-
-        .header-subtitle {
-            color: var(--text2);
-            font-size: 15px;
-            margin-top: 4px;
-            letter-spacing: 0.5px;
-        }
-
-        /* Platform Badges */
-        .platforms {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 16px;
-            flex-wrap: wrap;
-        }
-
-        .platform-badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 14px;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text2);
-            transition: var(--transition);
-        }
-
-        .platform-badge .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
-
-        .dot.fb { background: #1877f2; }
-        .dot.ig { background: var(--gradient3); }
-        .dot.tt { background: #fff; }
-        .dot.yt { background: #ff0000; }
-
-        /* Input Section */
-        .input-section {
-            margin-top: 30px;
-        }
-
-        .input-wrapper {
-            display: flex;
-            gap: 10px;
-            background: var(--surface);
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
-            padding: 6px;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
-        }
-
-        .input-wrapper:focus-within {
-            border-color: var(--accent);
-            box-shadow: var(--shadow-glow);
-        }
-
-        .url-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: var(--text);
-            font-size: 15px;
-            padding: 14px 16px;
-            font-family: inherit;
-        }
-
-        .url-input::placeholder {
-            color: var(--text2);
-            opacity: 0.6;
-        }
-
-        .paste-btn {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            color: var(--text2);
-            padding: 10px 14px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 13px;
-            transition: var(--transition);
-            white-space: nowrap;
-            font-family: inherit;
-        }
-
-        .paste-btn:hover {
-            background: var(--border);
-            color: var(--text);
-        }
-
-        .download-btn {
-            background: var(--gradient1);
-            border: none;
-            color: #fff;
-            padding: 14px 28px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: 600;
-            transition: var(--transition);
-            white-space: nowrap;
-            font-family: inherit;
-            box-shadow: 0 4px 20px rgba(108,92,231,0.4);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .download-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(108,92,231,0.5);
-        }
-
-        .download-btn:active {
-            transform: scale(0.98);
-        }
-
-        .download-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Loading Animation */
-        .loading-container {
-            display: none;
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .loading-container.active {
-            display: block;
-        }
-
-        .loader-ring {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 20px;
-            position: relative;
-        }
-
-        .loader-ring div {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 3px solid transparent;
-            animation: ringRotate 1.2s linear infinite;
-        }
-
-        .loader-ring div:nth-child(1) {
-            border-top-color: var(--accent);
-            animation-delay: 0s;
-        }
-
-        .loader-ring div:nth-child(2) {
-            width: 75%;
-            height: 75%;
-            top: 12.5%;
-            left: 12.5%;
-            border-right-color: #a855f7;
-            animation-delay: -0.4s;
-        }
-
-        .loader-ring div:nth-child(3) {
-            width: 50%;
-            height: 50%;
-            top: 25%;
-            left: 25%;
-            border-bottom-color: #ec4899;
-            animation-delay: -0.8s;
-        }
-
-        @keyframes ringRotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            color: var(--text2);
-            font-size: 14px;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-
-        .loading-steps {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 16px;
-        }
-
-        .loading-step {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            color: var(--text2);
-        }
-
-        .loading-step .step-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--accent);
-            animation: stepPulse 1.2s ease-in-out infinite;
-        }
-
-        .loading-step:nth-child(2) .step-dot { animation-delay: 0.4s; }
-        .loading-step:nth-child(3) .step-dot { animation-delay: 0.8s; }
-
-        @keyframes stepPulse {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.5); }
-        }
-
-        /* Results Section */
-        .results-container {
-            display: none;
-            margin-top: 24px;
-            animation: fadeInUp 0.5s ease;
-        }
-
-        .results-container.active {
-            display: block;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .result-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-        }
-
-        .result-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            gap: 16px;
-            align-items: flex-start;
-        }
-
-        .result-thumbnail {
-            width: 140px;
-            height: 140px;
-            border-radius: var(--radius-sm);
-            object-fit: cover;
-            flex-shrink: 0;
-            background: var(--surface2);
-            border: 2px solid var(--border);
-        }
-
-        .result-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .result-platform {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .platform-facebook { background: #1877f220; color: #1877f2; }
-        .platform-instagram { background: #ec489920; color: #ec4899; }
-        .platform-tiktok { background: #ffffff20; color: #fff; }
-        .platform-youtube { background: #ff000020; color: #ff0000; }
-
-        .result-title {
-            font-size: 16px;
-            font-weight: 600;
-            line-height: 1.4;
-            color: var(--text);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .result-meta {
-            display: flex;
-            gap: 16px;
-            margin-top: 8px;
-            flex-wrap: wrap;
-        }
-
-        .result-meta-item {
-            font-size: 12px;
-            color: var(--text2);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        /* Download Options */
-        .download-options {
-            padding: 16px 20px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .download-option-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 18px;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            color: var(--text);
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 500;
-            transition: var(--transition);
-            font-family: inherit;
-            text-decoration: none;
-            white-space: nowrap;
-        }
-
-        .download-option-btn:hover {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(108,92,231,0.3);
-        }
-
-        .download-option-btn.primary {
-            background: var(--gradient1);
-            border: none;
-            color: #fff;
-            font-weight: 600;
-            box-shadow: 0 4px 20px rgba(108,92,231,0.4);
-        }
-
-        .quality-badge {
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 8px;
-            background: rgba(255,255,255,0.15);
-        }
-
-        /* Error Message */
-        .error-message {
-            display: none;
-            background: #ef444410;
-            border: 1px solid #ef444430;
-            border-radius: var(--radius);
-            padding: 16px 20px;
-            margin-top: 16px;
-            color: #ef4444;
-            font-size: 14px;
-            text-align: center;
-            animation: fadeInUp 0.3s ease;
-        }
-
-        .error-message.active {
-            display: block;
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 30px 20px;
-            color: var(--text2);
-            font-size: 12px;
-            margin-top: 20px;
-        }
-
-        .footer a {
-            color: var(--accent2);
-            text-decoration: none;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .input-wrapper {
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            .paste-btn {
-                order: 2;
-                width: 100%;
-                text-align: center;
-            }
-
-            .download-btn {
-                order: 1;
-                width: 100%;
-            }
-
-            .result-header {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-
-            .result-thumbnail {
-                width: 100%;
-                max-width: 300px;
-                height: auto;
-                aspect-ratio: 1;
-            }
-
-            .logo-text {
-                font-size: 24px;
-            }
-
-            .download-options {
-                justify-content: center;
-            }
-
-            .download-option-btn {
-                flex: 1;
-                min-width: 120px;
-                justify-content: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .main-container {
-                padding: 10px 10px 30px;
-            }
-
-            .header {
-                padding: 20px 10px 10px;
-            }
-
-            .download-option-btn {
-                font-size: 12px;
-                padding: 10px 14px;
-            }
-
-            .platforms {
-                gap: 6px;
-            }
-
-            .platform-badge {
-                font-size: 11px;
-                padding: 6px 10px;
-            }
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>VidFlow · Premium Video Downloader</title>
+  <!-- Font Awesome 6 for sharp icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Fonts for premium feel -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(145deg, #0b0b0f 0%, #1a1a24 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      margin: 0;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* luxury ambient glow */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 30% 40%, rgba(138, 43, 226, 0.12) 0%, transparent 45%),
+                  radial-gradient(circle at 80% 70%, rgba(0, 180, 255, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .glass-card {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 850px;
+      background: rgba(18, 18, 27, 0.7);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 3.5rem;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+      padding: 2.5rem 2.2rem;
+      transition: all 0.3s ease;
+    }
+
+    @media (max-width: 600px) {
+      .glass-card {
+        padding: 2rem 1.5rem;
+        border-radius: 2.8rem;
+      }
+    }
+
+    .premium-badge {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 1.9rem;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #e9d5ff 0%, #b5deff 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .logo i {
+      background: linear-gradient(135deg, #a855f7, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 2.1rem;
+    }
+
+    .pro-tag {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 0.5rem 1.4rem;
+      border-radius: 3rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: #c9b6ff;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      text-transform: uppercase;
+    }
+
+    .pro-tag i {
+      color: #fbbf24;
+      font-size: 0.8rem;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin: 1.8rem 0 1.8rem;
+    }
+
+    .url-box {
+      display: flex;
+      align-items: center;
+      background: rgba(10, 10, 18, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 3rem;
+      padding: 0.3rem 0.3rem 0.3rem 1.8rem;
+      backdrop-filter: blur(12px);
+      transition: all 0.25s;
+    }
+
+    .url-box:focus-within {
+      border-color: #a78bfa;
+      box-shadow: 0 0 18px rgba(139, 92, 246, 0.3);
+    }
+
+    .url-box i {
+      color: #a78bfa;
+      font-size: 1.2rem;
+    }
+
+    .url-box input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 1rem 0.8rem;
+      font-size: 1rem;
+      color: #f1f5f9;
+      outline: none;
+      font-weight: 500;
+    }
+
+    .url-box input::placeholder {
+      color: #6b7280;
+      font-weight: 400;
+    }
+
+    .paste-btn {
+      background: rgba(255,255,255,0.05);
+      border: none;
+      color: #cbd5e1;
+      padding: 0.7rem 1.2rem;
+      border-radius: 2.5rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      margin-right: 0.3rem;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .paste-btn:hover {
+      background: rgba(255,255,255,0.15);
+      color: white;
+    }
+
+    .platform-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      justify-content: center;
+    }
+
+    .platform-btn {
+      background: rgba(20, 20, 30, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #cbd5e1;
+      padding: 0.75rem 1.4rem;
+      border-radius: 2.5rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: all 0.25s;
+      backdrop-filter: blur(8px);
+    }
+
+    .platform-btn i {
+      font-size: 1rem;
+    }
+
+    .platform-btn.active {
+      background: linear-gradient(135deg, #7c3aed, #4f46e5);
+      border-color: #c4b5fd;
+      color: white;
+      box-shadow: 0 8px 18px rgba(124, 58, 237, 0.4);
+      transform: scale(1.02);
+    }
+
+    .download-btn {
+      width: 100%;
+      background: linear-gradient(115deg, #8b5cf6, #6366f1);
+      border: none;
+      padding: 1.1rem;
+      border-radius: 3rem;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      cursor: pointer;
+      transition: 0.3s;
+      letter-spacing: 0.3px;
+      box-shadow: 0 12px 28px rgba(99, 102, 241, 0.45);
+      margin: 1rem 0 0.8rem;
+    }
+
+    .download-btn:hover {
+      box-shadow: 0 18px 32px rgba(139, 92, 246, 0.6);
+      transform: translateY(-2px);
+    }
+
+    .download-btn:disabled {
+      opacity: 0.55;
+      pointer-events: none;
+      filter: grayscale(0.3);
+    }
+
+    .result-area {
+      margin-top: 2rem;
+      border-radius: 2.2rem;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 1.3rem;
+      transition: 0.3s;
+    }
+
+    .video-preview {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .thumbnail {
+      width: 80px;
+      height: 80px;
+      border-radius: 1.5rem;
+      object-fit: cover;
+      background: #1e1b2e;
+    }
+
+    .meta {
+      flex: 1;
+    }
+
+    .meta h4 {
+      color: #f1f5f9;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .format-badge {
+      background: #2e1065;
+      color: #e9d5ff;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.8rem;
+      border-radius: 2rem;
+      display: inline-block;
+    }
+
+    .action-btns {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .dl-link {
+      background: white;
+      color: #0f0f17;
+      font-weight: 700;
+      padding: 0.7rem 1.4rem;
+      border-radius: 2.5rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: 0.2s;
+    }
+
+    .dl-link:hover {
+      background: #e2e8f0;
+    }
+
+    .loader {
+      display: flex;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 1rem;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      background: #c084fc;
+      border-radius: 50%;
+      animation: bounce 1.2s infinite ease-in-out;
+    }
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+      40% { transform: scale(1.3); opacity: 1; }
+    }
+
+    .error-message {
+      color: #fca5a5;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-
-    <!-- Animated Background -->
-    <div class="bg-animation">
-        <div class="bg-orb"></div>
-        <div class="bg-orb"></div>
-        <div class="bg-orb"></div>
+  <div class="glass-card">
+    <div class="premium-badge">
+      <div class="logo">
+        <i class="fas fa-crown"></i> VidFlow
+      </div>
+      <div class="pro-tag">
+        <i class="fas fa-gem"></i> PREMIUM
+      </div>
     </div>
 
-    <!-- Main Container -->
-    <div class="main-container">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo">
-                <div class="logo-icon">⬇️</div>
-                <span class="logo-text">SocialVault</span>
-            </div>
-            <p class="header-subtitle">Premium Video Downloader • All platforms supported</p>
-            <div class="platforms">
-                <span class="platform-badge"><span class="dot fb"></span> Facebook</span>
-                <span class="platform-badge"><span class="dot ig"></span> Instagram</span>
-                <span class="platform-badge"><span class="dot tt"></span> TikTok</span>
-                <span class="platform-badge"><span class="dot yt"></span> YouTube</span>
-            </div>
-        </header>
+    <div class="input-group">
+      <div class="url-box">
+        <i class="fas fa-link"></i>
+        <input type="text" id="urlInput" placeholder="Paste video link here..." autocomplete="off">
+        <button class="paste-btn" id="pasteBtn"><i class="far fa-clipboard"></i> Paste</button>
+      </div>
 
-        <!-- Input Section -->
-        <div class="input-section">
-            <div class="input-wrapper">
-                <input
-                    type="url"
-                    class="url-input"
-                    id="urlInput"
-                    placeholder="Paste video URL from Facebook, Instagram, TikTok, or YouTube..."
-                    autocomplete="off"
-                />
-                <button class="paste-btn" id="pasteBtn">📋 Paste</button>
-                <button class="download-btn" id="downloadBtn">
-                    <span id="btnText">🚀 Download</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Loading Animation -->
-        <div class="loading-container" id="loadingContainer">
-            <div class="loader-ring">
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-            <p class="loading-text" id="loadingText">Fetching video information...</p>
-            <div class="loading-steps">
-                <span class="loading-step"><span class="step-dot"></span> Connecting</span>
-                <span class="loading-step"><span class="step-dot"></span> Processing</span>
-                <span class="loading-step"><span class="step-dot"></span> Preparing</span>
-            </div>
-        </div>
-
-        <!-- Error Message -->
-        <div class="error-message" id="errorMessage"></div>
-
-        <!-- Results Container -->
-        <div class="results-container" id="resultsContainer"></div>
-
-        <!-- Footer -->
-        <div class="footer">
-            <p>© 2026 SocialVault • Powered by advanced download technology</p>
-            <p style="margin-top: 4px;">Supports: Facebook Reels • Instagram Posts • TikTok Videos • YouTube Videos</p>
-        </div>
+      <div class="platform-selector" id="platformSelector">
+        <button class="platform-btn active" data-platform="tiktok"><i class="fab fa-tiktok"></i> TikTok</button>
+        <button class="platform-btn" data-platform="instagram"><i class="fab fa-instagram"></i> Instagram</button>
+        <button class="platform-btn" data-platform="facebook"><i class="fab fa-facebook"></i> Facebook</button>
+        <button class="platform-btn" data-platform="youtube"><i class="fab fa-youtube"></i> YouTube</button>
+      </div>
     </div>
 
-    <script>
-        // DOM Elements
-        const urlInput = document.getElementById('urlInput');
-        const pasteBtn = document.getElementById('pasteBtn');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const btnText = document.getElementById('btnText');
-        const loadingContainer = document.getElementById('loadingContainer');
-        const loadingText = document.getElementById('loadingText');
-        const errorMessage = document.getElementById('errorMessage');
-        const resultsContainer = document.getElementById('resultsContainer');
+    <button class="download-btn" id="fetchBtn">
+      <i class="fas fa-cloud-download-alt"></i> Download Video
+    </button>
 
-        // API Configuration
-        const API_KEY = 'freeApikey';
-        const API_BASE = 'https://anabot.my.id/api/download';
-        // Detect platform from URL
-        function detectPlatform(url) {
-            const urlLower = url.toLowerCase();
-            if (urlLower.includes('facebook.com') || urlLower.includes('fb.com') || urlLower.includes('fb.watch')) return 'facebook';
-            if (urlLower.includes('instagram.com')) return 'instagram';
-            if (urlLower.includes('tiktok.com') || urlLower.includes('vt.tiktok.com')) return 'tiktok';
-            if (urlLower.includes('youtube.com') || urlLower.includes('youtu.be')) return 'youtube';
-            return 'unknown';
-        }
+    <!-- Result / Loader container -->
+    <div id="resultContainer" class="result-area hidden">
+      <div id="loadingSpinner" class="loader">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </div>
+      <div id="contentResult" class="hidden"></div>
+      <div id="errorDisplay" class="error-message hidden"></div>
+    </div>
+  </div>
 
-        // Platform display names
-        const platformNames = {
-            facebook: 'Facebook',
-            instagram: 'Instagram',
-            tiktok: 'TikTok',
-            youtube: 'YouTube'
-        };
+  <script>
+    (function() {
+      // --- API configuration ---
+      const API_BASE = 'https://anabot.my.id/api/download';
+      const YT_API = 'https://kojaxd-api.vercel.app/downloader/ytmp4';
+      const YT_APIKEY = 'Koja-5d5acdde3e2ab95585d4ebc888684266';
+      const DEFAULT_APIKEY = 'freeApikey'; // for tiktok/ig/fb
 
-        const platformClasses = {
-            facebook: 'platform-facebook',
-            instagram: 'platform-instagram',
-            tiktok: 'platform-tiktok',
-            youtube: 'platform-youtube'
-        };
+      // DOM elements
+      const urlInput = document.getElementById('urlInput');
+      const pasteBtn = document.getElementById('pasteBtn');
+      const platformBtns = document.querySelectorAll('.platform-btn');
+      const fetchBtn = document.getElementById('fetchBtn');
+      const resultContainer = document.getElementById('resultContainer');
+      const loadingSpinner = document.getElementById('loadingSpinner');
+      const contentResult = document.getElementById('contentResult');
+      const errorDisplay = document.getElementById('errorDisplay');
 
-        // Fetch with timeout
-        async function fetchWithTimeout(url, options = {}, timeout = 30000) {
-            const controller = new AbortController();
-            const id = setTimeout(() => controller.abort(), timeout);
-            try {
-                const response = await fetch(url, { ...options, signal: controller.signal });
-                clearTimeout(id);
-                return response;
-            } catch (error) {
-                clearTimeout(id);
-                throw error;
-            }
-        }
+      // State
+      let currentPlatform = 'tiktok';
 
-        // Facebook API
-        async function downloadFacebook(url) {
-            const response = await fetchWithTimeout(
-                `https://anabot.my.id/api/download/facebook?url=${encodeURIComponent(url)}&apikey=${API_KEY}`
-            );
-            const data = await response.json();
-
-            if (!data.success || !data.data?.result?.api) {
-                throw new Error('Failed to fetch Facebook video');
-            }
-
-            const api = data.data.result.api;
-            const mediaItems = api.mediaItems || [];
-
-            return {
-                platform: 'facebook',
-                title: api.title || api.description || 'Facebook Video',
-                thumbnail: api.imagePreviewUrl || api.previewUrl || '',
-                author: api.userInfo?.name || 'Facebook User',
-                duration: mediaItems[0]?.mediaDuration || 'Unknown',
-                downloads: mediaItems
-                    .filter(item => item.type === 'Video')
-                    .map(item => ({
-                        quality: item.mediaQuality || 'HD',
-                        resolution: item.mediaRes || 'Unknown',
-                        size: item.mediaFileSize || 'Unknown',
-                        format: item.mediaExtension || 'MP4',
-                        url: item.mediaUrl,
-                        previewUrl: item.mediaPreviewUrl
-                    })),
-                audioDownload: mediaItems
-                    .filter(item => item.type === 'Audio')
-                    .map(item => ({
-                        quality: item.mediaQuality || 'Audio',
-                        size: item.mediaFileSize || 'Unknown',
-                        format: item.mediaExtension || 'M4A',
-                        url: item.mediaUrl
-                    }))[0] || null
-            };
-        }
-
-        // Instagram API
-        async function downloadInstagram(url) {
-            const response = await fetchWithTimeout(
-                `https://anabot.my.id/api/download/instagram?url=${encodeURIComponent(url)}&apikey=${API_KEY}`
-            );
-            const data = await response.json();
-
-            if (!data.success || !data.data?.result) {
-                throw new Error('Failed to fetch Instagram content');
-            }
-
-            const results = data.data.result;
-
-            // Check if it's an array (carousel) or single post
-            const items = Array.isArray(results) ? results : [results];
-
-            return {
-                platform: 'instagram',
-                title: 'Instagram Post',
-                thumbnail: items[0]?.thumbnail || '',
-                author: 'Instagram User',
-                duration: 'N/A',
-                downloads: items.map((item, index) => ({
-                    quality: 'Original',
-                    resolution: '1080x1080',
-                    size: 'Variable',
-                    format: 'JPG/MP4',
-                    url: item.url,
-                    previewUrl: item.thumbnail,
-                    label: items.length > 1 ? `Media #${index + 1}` : 'Download'
-                })),
-                audioDownload: null
-            };
-        }
-
-        // TikTok API
-        async function downloadTikTok(url) {
-            const response = await fetchWithTimeout(
-                `https://anabot.my.id/api/download/tiktok?url=${encodeURIComponent(url)}&apikey=${API_KEY}`
-            );
-            const data = await response.json();
-
-            if (!data.success || !data.data?.result) {
-                throw new Error('Failed to fetch TikTok video');
-            }
-
-            const result = data.data.result;
-
-            const downloads = [];
-            if (result.nowatermark) {
-                downloads.push({
-                    quality: 'No Watermark',
-                    resolution: 'HD',
-                    size: 'Variable',
-                    format: 'MP4',
-                    url: result.nowatermark
-                });
-            }
-            if (result.video) {
-                downloads.push({
-                    quality: 'With Watermark',
-                    resolution: 'HD',
-                    size: 'Variable',
-                    format: 'MP4',
-                    url: result.video
-                });
-            }
-
-            return {
-                platform: 'tiktok',
-                title: result.description || 'TikTok Video',
-                thumbnail: result.thumbnail || '',
-                author: result.username || 'TikTok Creator',
-                duration: 'Variable',
-                downloads: downloads,
-                audioDownload: result.audio ? {
-                    quality: 'Original Audio',
-                    size: 'Variable',
-                    format: 'MP3',
-                    url: result.audio
-                } : null
-            };
-        }
-
-        // YouTube API
-        async function downloadYouTube(url) {
-            // Try Mp4
-            const mp4Response = await fetchWithTimeout(
-                `https://anabot.my.id/api/download/youtube?url=${encodeURIComponent(url)}&apikey=${API_KEY}&format=mp4`
-            );
-            const mp4Data = await mp4Response.json();
-
-            // Try Mp3
-            const mp3Response = await fetchWithTimeout(
-                `https://anabot.my.id/api/download/youtube?url=${encodeURIComponent(url)}&apikey=${API_KEY}&format=mp3`
-            );
-            const mp3Data = await mp3Response.json();
-
-            const downloads = [];
-            if (mp4Data.success && mp4Data.data) {
-                downloads.push({
-                    quality: '720p',
-                    resolution: '1280x720',
-                    size: 'Variable',
-                    format: 'MP4',
-                    url: mp4Data.data.download,
-                    filename: mp4Data.data.filename || 'video.mp4'
-                });
-            }
-
-            return {
-                platform: 'youtube',
-                title: mp4Data.data?.title || mp3Data.data?.title || 'YouTube Video',
-                thumbnail: mp4Data.data?.thumbnail || mp3Data.data?.thumbnail || '',
-                author: 'YouTube',
-                duration: 'Variable',
-                downloads: downloads,
-                audioDownload: mp3Data.success && mp3Data.data ? {
-                    quality: 'MP3 Audio',
-                    size: 'Variable',
-                    format: 'MP3',
-                    url: mp3Data.data.download,
-                    filename: mp3Data.data.filename || 'audio.mp3'
-                } : null
-            };
-        }
-
-        // Main download handler
-        async function handleDownload() {
-            const url = urlInput.value.trim();
-
-            // Reset states
-            errorMessage.classList.remove('active');
-            resultsContainer.classList.remove('active');
-            resultsContainer.innerHTML = '';
-
-            if (!url) {
-                showError('Please enter a video URL');
-                return;
-            }
-
-            const platform = detectPlatform(url);
-            if (platform === 'unknown') {
-                showError('Unsupported platform. Please use a link from Facebook, Instagram, TikTok, or YouTube.');
-                return;
-            }
-
-            // Show loading
-            setLoading(true, `Detected ${platformNames[platform]} link...`);
-
-            try {
-                let result;
-                switch (platform) {
-                    case 'facebook':
-                        loadingText.textContent = 'Extracting Facebook video...';
-                        result = await downloadFacebook(url);
-                        break;
-                    case 'instagram':
-                        loadingText.textContent = 'Fetching Instagram content...';
-                        result = await downloadInstagram(url);
-                        break;
-                    case 'tiktok':
-                        loadingText.textContent = 'Processing TikTok video...';
-                        result = await downloadTikTok(url);
-                        break;
-                    case 'youtube':
-                        loadingText.textContent = 'Getting YouTube video...';
-                        result = await downloadYouTube(url);
-                        break;
-                    default:
-                        throw new Error('Unknown platform');
-                }
-
-                renderResults(result);
-            } catch (error) {
-                console.error('Download error:', error);
-                if (error.name === 'AbortError') {
-                    showError('Request timed out. Please try again.');
-                } else {
-                    showError(error.message || 'Failed to download. Please try again with a valid URL.');
-                }
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        // Show/hide loading
-        function setLoading(isLoading, text = '') {
-            if (isLoading) {
-                loadingContainer.classList.add('active');
-                loadingText.textContent = text;
-                downloadBtn.disabled = true;
-                btnText.textContent = '⏳ Processing...';
-            } else {
-                loadingContainer.classList.remove('active');
-                downloadBtn.disabled = false;
-                btnText.textContent = '🚀 Download';
-            }
-        }
-
-        // Show error
-        function showError(msg) {
-            errorMessage.textContent = msg;
-            errorMessage.classList.add('active');
-            setTimeout(() => errorMessage.classList.remove('active'), 5000);
-        }
-
-        // Render results
-        function renderResults(result) {
-            const platformClass = platformClasses[result.platform] || '';
-            const platformName = platformNames[result.platform] || result.platform;
-
-            let downloadsHTML = '';
-            result.downloads.forEach((dl, index) => {
-                const label = dl.label || `${dl.quality} (${dl.resolution})`;
-                downloadsHTML += `
-                    <a href="${dl.url}" target="_blank" class="download-option-btn ${index === 0 ? 'primary' : ''}" download>
-                        📥 ${label}
-                        <span class="quality-badge">${dl.format}</span>
-                        ${dl.size !== 'Variable' ? `<span style="font-size:11px;opacity:0.7">${dl.size}</span>` : ''}
-                    </a>
-                `;
-            });
-
-            if (result.audioDownload) {
-                downloadsHTML += `
-                    <a href="${result.audioDownload.url}" target="_blank" class="download-option-btn" download>
-                        🎵 Audio ${result.audioDownload.format}
-                        <span class="quality-badge">${result.audioDownload.quality}</span>
-                    </a>
-                `;
-            }
-
-            if (result.downloads.length === 0 && !result.audioDownload) {
-                downloadsHTML = '<p style="color: var(--text2); padding: 10px;">No downloadable media found for this link.</p>';
-            }
-
-            resultsContainer.innerHTML = `
-                <div class="result-card">
-                    <div class="result-header">
-                        ${result.thumbnail ? `<img src="${result.thumbnail}" alt="Thumbnail" class="result-thumbnail" onerror="this.style.display='none'">` : ''}
-                        <div class="result-info">
-                            <span class="result-platform ${platformClass}">${platformName}</span>
-                            <h3 class="result-title">${escapeHTML(result.title || 'Untitled')}</h3>
-                            <div class="result-meta">
-                                <span class="result-meta-item">👤 ${escapeHTML(result.author || 'Unknown')}</span>
-                                ${result.duration && result.duration !== 'Variable' && result.duration !== 'N/A' ? `<span class="result-meta-item">⏱ ${result.duration}</span>` : ''}
-                                <span class="result-meta-item">📁 ${result.downloads.length} file(s)</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="download-options">
-                        ${downloadsHTML}
-                    </div>
-                </div>
-            `;
-
-            resultsContainer.classList.add('active');
-            resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        // Escape HTML
-        function escapeHTML(str) {
-            const div = document.createElement('div');
-            div.textContent = str;
-            return div.innerHTML;
-        }
-
-        // Paste button
-        pasteBtn.addEventListener('click', async () => {
-            try {
-                const text = await navigator.clipboard.readText();
-                if (text) {
-                    urlInput.value = text;
-                    urlInput.focus();
-                }
-            } catch (err) {
-                urlInput.focus();
-            }
+      // Platform switch
+      platformBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          platformBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentPlatform = btn.dataset.platform;
+          // clear previous results
+          hideResult();
         });
+      });
 
-        // Download button
-        downloadBtn.addEventListener('click', handleDownload);
+      // Paste from clipboard
+      pasteBtn.addEventListener('click', async () => {
+        try {
+          const text = await navigator.clipboard.readText();
+          if (text) {
+            urlInput.value = text;
+          }
+        } catch (err) {
+          alert('Could not paste from clipboard');
+        }
+      });
 
-        // Enter key
-        urlInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                handleDownload();
-            }
-        });
+      // Main download action
+      fetchBtn.addEventListener('click', async () => {
+        const url = urlInput.value.trim();
+        if (!url) {
+          showError('Please enter a video URL');
+          return;
+        }
 
-        // Auto-detect paste
-        urlInput.addEventListener('input', () => {
-            const platform = detectPlatform(urlInput.value);
-            if (platform !== 'unknown' && urlInput.value.length > 10) {
-                downloadBtn.style.background = 'var(--gradient2)';
-            } else {
-                downloadBtn.style.background = 'var(--gradient1)';
-            }
-        });
+        // Show loading UI
+        showLoading();
 
-        // Initial focus
-        setTimeout(() => urlInput.focus(), 500);
+        try {
+          let responseData;
+          if (currentPlatform === 'youtube') {
+            responseData = await fetchYoutube(url);
+          } else if (currentPlatform === 'tiktok') {
+            responseData = await tiktokDownloader(url, DEFAULT_APIKEY);
+          } else if (currentPlatform === 'instagram') {
+            responseData = await instagramDownloader(url, DEFAULT_APIKEY);
+          } else if (currentPlatform === 'facebook') {
+            responseData = await facebookDownloader(url, DEFAULT_APIKEY);
+          } else {
+            throw new Error('Platform not supported');
+          }
 
-        console.log('🔥 SocialVault Premium Downloader Ready');
-        console.log('📱 Supported: Facebook | Instagram | TikTok | YouTube');
-    </script>
+          // Process and display result
+          if (responseData && responseData.success !== false && responseData.status === 200) {
+            // Handle different response structures
+            renderResult(responseData, currentPlatform);
+          } else if (responseData && responseData.data && responseData.data.download) {
+            // fallback for kojaxd style or similar
+            renderResult(responseData, currentPlatform);
+          } else {
+            const msg = responseData?.message || responseData?.error || 'Failed to fetch video';
+            showError(msg);
+          }
+        } catch (err) {
+          console.error(err);
+          showError(err.message || 'Network error or invalid response');
+        }
+      });
+
+      // --- API functions (mirroring provided signatures) ---
+      async function tiktokDownloader(url, apikey) {
+        const response = await fetch(`${API_BASE}/tiktok?url=${encodeURIComponent(url)}&apikey=${encodeURIComponent(apikey)}`);
+        return await response.json();
+      }
+
+      async function instagramDownloader(url, apikey) {
+        const response = await fetch(`${API_BASE}/instagram?url=${encodeURIComponent(url)}&apikey=${encodeURIComponent(apikey)}`);
+        return await response.json();
+      }
+
+      async function facebookDownloader(url, apikey) {
+        const response = await fetch(`${API_BASE}/facebook?url=${encodeURIComponent(url)}&apikey=${encodeURIComponent(apikey)}`);
+        return await response.json();
+      }
+
+      async function fetchYoutube(url) {
+        // Use MP4 format as default for best compatibility, but we'll allow MP3 optionally? Keep MP4.
+        const format = 'Mp4';
+        const encodedUrl = encodeURIComponent(url);
+        const apiUrl = `${YT_API}?apikey=${YT_APIKEY}&url=${encodedUrl}&format=${format}`;
+        const response = await fetch(apiUrl);
+        return await response.json();
+      }
+
+      // --- UI helpers ---
+      function showLoading() {
+        resultContainer.classList.remove('hidden');
+        loadingSpinner.classList.remove('hidden');
+        contentResult.classList.add('hidden');
+        errorDisplay.classList.add('hidden');
+        contentResult.innerHTML = '';
+        errorDisplay.innerHTML = '';
+      }
+
+      function hideResult() {
+        resultContainer.classList.add('hidden');
+        loadingSpinner.classList.add('hidden');
+        contentResult.classList.add('hidden');
+        errorDisplay.classList.add('hidden');
+      }
+
+      function showError(message) {
+        resultContainer.classList.remove('hidden');
+        loadingSpinner.classList.add('hidden');
+        contentResult.classList.add('hidden');
+        errorDisplay.classList.remove('hidden');
+        errorDisplay.textContent = `⚠️ ${message}`;
+      }
+
+      function renderResult(data, platform) {
+        resultContainer.classList.remove('hidden');
+        loadingSpinner.classList.add('hidden');
+        errorDisplay.classList.add('hidden');
+        contentResult.classList.remove('hidden');
+
+        // Extract details based on platform/response shape
+        let title = '', thumbnail = '', downloadUrl = '', formatInfo = 'MP4';
+
+        // YouTube structure (kojaxd)
+        if (platform === 'youtube' && data.data) {
+          title = data.data.title || 'YouTube Video';
+          thumbnail = data.data.thumbnail || '';
+          downloadUrl = data.data.download || '';
+          formatInfo = data.data.format || 'MP4';
+        }
+        // TikTok/Instagram/Facebook from anabot (common pattern: data.video, data.title etc.)
+        else if (data.data) {
+          // anabot may return { status, data: { title, video, thumbnail... } }
+          const d = data.data;
+          title = d.title || d.description || 'Social Video';
+          thumbnail = d.thumbnail || d.thumb || '';
+          downloadUrl = d.video || d.download || d.url || '';
+          formatInfo = 'MP4';
+          // If no direct download link, try fallback
+          if (!downloadUrl && d.medias) {
+            // sometimes array of formats
+            const firstMedia = Array.isArray(d.medias) ? d.medias[0] : null;
+            if (firstMedia && firstMedia.url) downloadUrl = firstMedia.url;
+          }
+        } else if (data.download) {
+          downloadUrl = data.download;
+          title = data.title || 'Download';
+          thumbnail = data.thumbnail || '';
+        }
+
+        if (!downloadUrl) {
+          showError('No download link found. The video might be private or removed.');
+          return;
+        }
+
+        // Build beautiful card
+        const html = `
+          <div class="video-preview">
+            ${thumbnail ? `<img src="${thumbnail}" alt="thumb" class="thumbnail" onerror="this.style.display='none'">` : ''}
+            <div class="meta">
+              <h4>${escapeHtml(title)}</h4>
+              <span class="format-badge"><i class="fas fa-film"></i> ${escapeHtml(formatInfo)} HD</span>
+            </div>
+          </div>
+          <div class="action-btns">
+            <a href="${downloadUrl}" target="_blank" rel="noopener noreferrer" class="dl-link">
+              <i class="fas fa-download"></i> Download Now
+            </a>
+            <button class="platform-btn" style="padding:0.5rem 1.2rem;" onclick="navigator.clipboard.writeText('${downloadUrl.replace(/'/g, "\\'")}')">
+              <i class="far fa-copy"></i> Copy
+            </button>
+          </div>
+        `;
+        contentResult.innerHTML = html;
+      }
+
+      function escapeHtml(text) {
+        if (!text) return '';
+        return String(text)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      // Initial hide result
+      hideResult();
+
+      // Optional: example prefill for testing (remove in production if needed)
+      // urlInput.value = 'https://vt.tiktok.com/ZS9D4WSKU/';
+    })();
+  </script>
 </body>
 </html>
