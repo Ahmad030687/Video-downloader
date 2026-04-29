@@ -328,7 +328,7 @@
             background: rgba(0, 0, 0, 0.4);
             border-radius: 32px;
             display: none;
-            border: 0.5px solid rgba(255, 0, 102, 0.2);
+            border: 0.5px solid rgba(0, 255, 136, 0.3);
             animation: fadeIn 0.4s ease;
         }
         
@@ -345,6 +345,8 @@
             width: 100%;
             border-radius: 24px;
             margin-bottom: 16px;
+            max-height: 300px;
+            background: #000;
         }
         
         .video-info {
@@ -361,7 +363,7 @@
         
         .video-meta {
             font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(0, 255, 136, 0.7);
         }
         
         .action-links {
@@ -372,24 +374,26 @@
         
         .download-link {
             flex: 1;
-            padding: 12px 16px;
-            background: linear-gradient(135deg, #00cc66, #00994d);
+            padding: 14px 16px;
+            background: linear-gradient(135deg, #00ff88, #00994d);
+            border: none;
             border-radius: 40px;
             text-align: center;
             text-decoration: none;
-            color: white;
-            font-size: 0.8rem;
-            font-weight: 600;
+            color: #0a0a0f;
+            font-size: 0.85rem;
+            font-weight: 700;
             transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            cursor: pointer;
         }
         
         .download-link:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 204, 102, 0.4);
+            box-shadow: 0 8px 20px rgba(0, 255, 136, 0.4);
         }
 
         /* Toast Message */
@@ -399,7 +403,7 @@
             left: 50%;
             transform: translateX(-50%);
             padding: 14px 28px;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(12px);
             border-radius: 60px;
             display: none;
@@ -408,6 +412,7 @@
             z-index: 100;
             border: 0.5px solid rgba(255, 0, 102, 0.4);
             animation: slideUp 0.3s ease;
+            white-space: nowrap;
         }
         
         .toast-msg.show {
@@ -455,6 +460,7 @@
             .platform-badge { padding: 6px 14px; }
             .platform-badge i { font-size: 1.2rem; }
             .action-links { flex-direction: column; }
+            .toast-msg { white-space: normal; text-align: center; max-width: 90%; }
         }
     </style>
 </head>
@@ -537,8 +543,49 @@
         if (url.includes('tiktok.com')) return 'tiktok';
         if (url.includes('facebook.com') || url.includes('fb.com') || url.includes('fb.watch')) return 'facebook';
         if (url.includes('youtube.com') || url.includes('youtu.be')) return 'youtube';
-        if (url.includes('instagram.com') || url.includes('instagr.am')) return 'instagram';
+        if (url.includes('instagram.com') || url.includes('instagr.am') || url.includes('insta')) return 'instagram';
         if (url.includes('snapchat.com')) return 'snapchat';
+        return null;
+    }
+
+    // Extract video URL from API response (deep search)
+    function extractVideoUrl(data, platform) {
+        // If data is string, try to parse
+        if (typeof data === 'string') {
+            try {
+                data = JSON.parse(data);
+            } catch(e) {}
+        }
+        
+        // Common patterns for video URLs
+        const patterns = [
+            'video_url', 'video', 'url', 'download_url', 'download', 
+            'play_url', 'play', 'hd', 'sd', 'high', 'low',
+            'result', 'data', 'link', 'src', 'source'
+        ];
+        
+        // Direct match
+        for (let pattern of patterns) {
+            if (data[pattern] && typeof data[pattern] === 'string' && (data[pattern].includes('.mp4') || data[pattern].includes('video'))) {
+                return data[pattern];
+            }
+        }
+        
+        // Check nested objects
+        for (let key in data) {
+            if (data[key] && typeof data[key] === 'object') {
+                const found = extractVideoUrl(data[key], platform);
+                if (found) return found;
+            }
+        }
+        
+        // Platform specific fallbacks
+        if (platform === 'youtube' && data.url) return data.url;
+        if (platform === 'facebook' && (data.hd || data.sd)) return data.hd || data.sd;
+        if (platform === 'instagram' && (data.video_url || data.url)) return data.video_url || data.url;
+        if (platform === 'tiktok' && (data.play_url || data.video_url)) return data.play_url || data.video_url;
+        if (platform === 'snapchat' && data.url) return data.url;
+        
         return null;
     }
 
@@ -569,6 +616,17 @@
         setTimeout(() => {
             toastMsg.classList.remove('show');
         }, 4000);
+    }
+
+    // Force download
+    function forceDownload(url, filename) {
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename || 'video.mp4';
+        link.target = '_blank';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
 
     // Main download function
@@ -613,58 +671,56 @@
             
             const data = await response.json();
             
-            // Process response based on platform
-            let videoUrl = null;
-            let title = '';
-            let isVideo = true;
+            console.log('API Response:', data); // Debug log
             
-            if (platform === 'tiktok') {
-                videoUrl = data.video_url || data.url || data.play_url || data.result?.video_url;
-                title = data.title || data.desc || 'TikTok Video';
-            }
-            else if (platform === 'facebook') {
-                videoUrl = data.hd || data.sd || data.url || data.result?.download_url;
-                title = data.title || data.name || 'Facebook Video';
-            }
-            else if (platform === 'youtube') {
-                videoUrl = data.url || data.download_url || data.result?.url;
-                title = data.title || 'YouTube Video';
-            }
-            else if (platform === 'instagram') {
-                videoUrl = data.url || data.download_url || data.result?.url || data.video_url;
-                title = data.title || data.username || 'Instagram Video';
-            }
-            else if (platform === 'snapchat') {
-                videoUrl = data.url || data.download_url || data.result?.url;
-                title = data.title || 'Snapchat Story';
+            // Extract video URL
+            let videoUrl = extractVideoUrl(data, platform);
+            
+            // If still no video URL, try different approach
+            if (!videoUrl && data.result) {
+                videoUrl = typeof data.result === 'string' ? data.result : extractVideoUrl(data.result, platform);
             }
             
-            // If no video URL found, try alternative parsing
             if (!videoUrl && data.data) {
-                videoUrl = data.data.url || data.data.video_url || data.data.play_url;
-                title = data.data.title || data.data.username || title;
+                videoUrl = extractVideoUrl(data.data, platform);
             }
             
             if (!videoUrl) {
                 throw new Error('Could not extract download link. Please try again.');
             }
             
+            // Ensure video URL is valid
+            if (!videoUrl.startsWith('http')) {
+                videoUrl = 'https:' + videoUrl;
+            }
+            
+            // Get title
+            let title = '';
+            if (data.title) title = data.title;
+            else if (data.desc) title = data.desc;
+            else if (data.description) title = data.description;
+            else title = `${platform.toUpperCase()} Video`;
+            
             // Display result
             videoPreview.src = videoUrl;
-            videoTitle.textContent = title.substring(0, 100);
-            videoMeta.textContent = `Platform: ${platform.toUpperCase()} • Ready to download`;
+            videoTitle.textContent = title.substring(0, 80);
+            videoMeta.innerHTML = `<i class="fas fa-check-circle" style="color:#00ff88"></i> Ready to download • ${platform.toUpperCase()}`;
             
+            // Create download button that directly downloads
             downloadLinks.innerHTML = `
-                <a href="${videoUrl}" class="download-link" download target="_blank">
-                    <i class="fas fa-download"></i> Download Video
-                </a>
-                <a href="${videoUrl}" class="download-link" target="_blank" style="background: linear-gradient(135deg, #0066ff, #0044aa);">
-                    <i class="fas fa-external-link-alt"></i> Watch Online
-                </a>
+                <button onclick="forceDownload('${videoUrl}', '${title.replace(/[^a-zA-Z0-9]/g, '_')}.mp4')" class="download-link">
+                    <i class="fas fa-download"></i> DIRECT DOWNLOAD
+                </button>
+                <button onclick="window.open('${videoUrl}', '_blank')" class="download-link" style="background: linear-gradient(135deg, #0066ff, #0044aa);">
+                    <i class="fas fa-play"></i> PREVIEW VIDEO
+                </button>
             `;
             
             resultBox.classList.add('show');
             showToast(`✓ Ready! Download your ${platform.toUpperCase()} video now`);
+            
+            // Auto trigger download (optional)
+            // forceDownload(videoUrl, `${title.replace(/[^a-zA-Z0-9]/g, '_')}.mp4`);
             
         } catch (error) {
             console.error('Download error:', error);
@@ -679,6 +735,9 @@
             downloadBtn.disabled = false;
         }
     }
+
+    // Make forceDownload globally accessible
+    window.forceDownload = forceDownload;
 
     // Event listener
     downloadBtn.addEventListener('click', downloadVideo);
@@ -695,13 +754,6 @@
         const url = urlInput.value.trim();
         const platform = detectPlatform(url);
         if (platform && url.length > 15) {
-            const platformNames = {
-                tiktok: 'TikTok',
-                facebook: 'Facebook',
-                youtube: 'YouTube',
-                instagram: 'Instagram',
-                snapchat: 'Snapchat'
-            };
             urlInput.style.borderColor = '#00ff88';
             setTimeout(() => {
                 urlInput.style.borderColor = '';
@@ -711,7 +763,7 @@
 
     // Console branding
     console.log('%c⚡ AHMAD RDX PREMIUM DOWNLOADER 2026 ⚡', 'color: #ff0066; font-size: 14px; font-weight: bold;');
-    console.log('%cSupport: TikTok | Facebook | YouTube | Instagram | Snapchat', 'color: #0066ff; font-size: 12px;');
+    console.log('%cDirect Download Mode - No Redirects', 'color: #00ff88; font-size: 12px;');
 </script>
 </body>
 </html>
