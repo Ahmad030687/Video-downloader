@@ -8,835 +8,383 @@
     <style>
         :root {
             --bg: #0a0a0f;
-            --card: rgba(20, 20, 35, 0.7);
             --purple: #8b5cf6;
             --pink: #ec4899;
             --blue: #3b82f6;
             --gold: #f59e0b;
-            --text: #e2e8f0;
-            --glass: rgba(255, 255, 255, 0.05);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             background: var(--bg);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow-x: hidden;
             position: relative;
+            overflow-x: hidden;
         }
 
-        /* Animated background particles */
+        /* Orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.25;
+            pointer-events: none;
+            z-index: 0;
+            animation: orbFloat 10s ease-in-out infinite;
+        }
+        .orb-1 { width: 400px; height: 400px; background: #8b5cf6; top: -150px; left: -100px; }
+        .orb-2 { width: 350px; height: 350px; background: #ec4899; bottom: -120px; right: -100px; animation-delay: -5s; }
+        .orb-3 { width: 300px; height: 300px; background: #3b82f6; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -3s; }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(40px, -60px) scale(1.15); }
+            66% { transform: translate(-30px, 30px) scale(0.85); }
+        }
+
+        /* Particles */
         .particles {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             pointer-events: none;
             z-index: 0;
         }
-
         .particle {
             position: absolute;
             border-radius: 50%;
             animation: floatUp linear infinite;
             opacity: 0;
         }
-
         @keyframes floatUp {
-            0% {
-                transform: translateY(100vh) scale(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-10vh) scale(1);
-                opacity: 0;
-            }
+            0% { transform: translateY(105vh) scale(0); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
         }
 
-        /* Animated gradient orbs */
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.3;
-            animation: orbFloat 8s ease-in-out infinite;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .orb-1 {
-            width: 400px;
-            height: 400px;
-            background: var(--purple);
-            top: -100px;
-            left: -100px;
-        }
-        .orb-2 {
-            width: 350px;
-            height: 350px;
-            background: var(--pink);
-            bottom: -100px;
-            right: -100px;
-            animation-delay: -4s;
-        }
-        .orb-3 {
-            width: 300px;
-            height: 300px;
-            background: var(--blue);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation-delay: -2s;
-        }
-
-        @keyframes orbFloat {
-            0%, 100% {
-                transform: translate(0, 0) scale(1);
-            }
-            33% {
-                transform: translate(30px, -50px) scale(1.1);
-            }
-            66% {
-                transform: translate(-20px, 20px) scale(0.9);
-            }
-        }
-
-        /* Main container */
+        /* Container */
         .container {
             position: relative;
             z-index: 10;
             width: 95%;
-            max-width: 700px;
+            max-width: 680px;
             padding: 20px;
         }
 
-        /* Glass card */
         .main-card {
-            background: rgba(15, 15, 25, 0.6);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            padding: 40px 35px;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5),
-                        0 0 0 1px rgba(255, 255, 255, 0.05) inset,
-                        0 0 100px rgba(139, 92, 246, 0.1);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(18, 18, 28, 0.65);
+            backdrop-filter: blur(35px);
+            -webkit-backdrop-filter: blur(35px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 32px;
+            padding: 38px 32px;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03) inset;
         }
 
-        .main-card:hover {
-            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6),
-                        0 0 0 1px rgba(255, 255, 255, 0.08) inset,
-                        0 0 150px rgba(139, 92, 246, 0.2);
+        @media (max-width: 500px) {
+            .main-card { padding: 28px 18px; border-radius: 26px; }
         }
 
-        /* Header */
         .header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 30px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .logo-section {
-            display: flex;
-            align-items: center;
             gap: 12px;
-        }
-
-        .logo-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--purple), var(--pink));
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: white;
-            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
-            }
-            50% {
-                box-shadow: 0 15px 35px rgba(236, 72, 153, 0.6);
-            }
-        }
-
-        .logo-text {
-            font-size: 28px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #e9d5ff, #fce7f3, #bfdbfe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -1px;
-        }
-
-        .premium-badge {
-            background: linear-gradient(135deg, #f59e0b, #fbbf24);
-            color: #000;
-            padding: 8px 18px;
-            border-radius: 50px;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 5px 20px rgba(245, 158, 11, 0.4);
-            animation: glowBadge 2s ease-in-out infinite;
-        }
-
-        @keyframes glowBadge {
-            0%, 100% {
-                box-shadow: 0 5px 20px rgba(245, 158, 11, 0.4);
-            }
-            50% {
-                box-shadow: 0 8px 30px rgba(245, 158, 11, 0.7);
-            }
-        }
-
-        /* URL Input */
-        .input-wrapper {
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .url-input-group {
-            display: flex;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px solid rgba(255, 255, 255, 0.08);
-            border-radius: 60px;
-            padding: 5px 5px 5px 22px;
-            transition: all 0.3s;
-        }
-
-        .url-input-group:focus-within {
-            border-color: var(--purple);
-            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15),
-                        0 0 30px rgba(139, 92, 246, 0.2);
-        }
-
-        .url-input-group i {
-            color: var(--purple);
-            font-size: 18px;
-            margin-right: 10px;
-        }
-
-        .url-input-group input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            padding: 16px 5px;
-            color: white;
-            font-size: 15px;
-            outline: none;
-            font-weight: 500;
-        }
-
-        .url-input-group input::placeholder {
-            color: #555;
-            font-weight: 400;
-        }
-
-        .paste-btn {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #aaa;
-            padding: 10px 18px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            transition: all 0.3s;
-            white-space: nowrap;
-        }
-
-        .paste-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-        }
-
-        /* Platform Selector */
-        .platforms {
-            display: flex;
-            gap: 10px;
             flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 25px;
         }
 
-        .platform-btn {
-            flex: 1;
-            min-width: 100px;
-            padding: 13px 15px;
-            border-radius: 20px;
-            border: 1.5px solid rgba(255, 255, 255, 0.08);
-            background: rgba(255, 255, 255, 0.03);
-            color: #999;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 13px;
-            transition: all 0.3s;
+        .logo {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            backdrop-filter: blur(10px);
+            gap: 10px;
+        }
+        .logo-icon {
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; color: white;
+            box-shadow: 0 12px 28px rgba(139,92,246,0.4);
+        }
+        .logo-text {
+            font-size: 26px; font-weight: 800;
+            background: linear-gradient(135deg, #e9d5ff, #fce7f3);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .badge-premium {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            color: #000; padding: 7px 16px;
+            border-radius: 50px; font-size: 11px; font-weight: 700;
+            display: flex; align-items: center; gap: 5px;
+            box-shadow: 0 5px 18px rgba(245,158,11,0.35);
         }
 
-        .platform-btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-            color: #ddd;
-            border-color: rgba(255, 255, 255, 0.2);
+        .input-group {
+            display: flex; align-items: center;
+            background: rgba(0,0,0,0.5);
+            border: 2px solid rgba(255,255,255,0.08);
+            border-radius: 60px; padding: 5px 5px 5px 20px;
+            margin-bottom: 18px;
+            transition: 0.3s;
+        }
+        .input-group:focus-within {
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 4px rgba(139,92,246,0.12);
+        }
+        .input-group i { color: #8b5cf6; font-size: 17px; }
+        .input-group input {
+            flex: 1; background: transparent; border: none;
+            padding: 15px 8px; color: white; font-size: 15px; outline: none;
+        }
+        .input-group input::placeholder { color: #555; }
+        .paste-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            color: #aaa; padding: 10px 18px; border-radius: 50px;
+            cursor: pointer; font-size: 13px; font-weight: 600;
+            transition: 0.2s; white-space: nowrap;
+        }
+        .paste-btn:hover { background: rgba(255,255,255,0.12); color: white; }
+
+        .platforms {
+            display: flex; gap: 10px; flex-wrap: wrap;
+            justify-content: center; margin-bottom: 24px;
+        }
+        .plat-btn {
+            flex: 1; min-width: 85px; padding: 12px 10px;
+            border-radius: 18px; border: 1.5px solid rgba(255,255,255,0.07);
+            background: rgba(255,255,255,0.02); color: #999;
+            cursor: pointer; font-weight: 600; font-size: 12px;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+            transition: 0.3s;
+        }
+        .plat-btn:hover { color: #ddd; }
+        .plat-btn.active {
+            background: linear-gradient(135deg, rgba(139,92,246,0.25), rgba(59,130,246,0.25));
+            border-color: #8b5cf6; color: white;
+            box-shadow: 0 8px 22px rgba(139,92,246,0.25);
         }
 
-        .platform-btn.active {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.3));
-            border-color: var(--purple);
-            color: white;
-            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
-            transform: translateY(-2px);
-        }
-
-        /* Download Button */
-        .download-main-btn {
-            width: 100%;
-            padding: 18px;
-            border: none;
-            border-radius: 60px;
-            font-size: 17px;
-            font-weight: 700;
-            cursor: pointer;
-            color: white;
-            background: linear-gradient(135deg, var(--purple), var(--pink), var(--blue));
+        .dl-btn-main {
+            width: 100%; padding: 17px; border: none;
+            border-radius: 60px; font-size: 16px; font-weight: 700;
+            cursor: pointer; color: white;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899, #3b82f6);
             background-size: 200% 200%;
             animation: gradientShift 3s ease infinite;
-            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.4);
-            letter-spacing: 0.5px;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            box-shadow: 0 14px 32px rgba(139,92,246,0.4);
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: 0.3s;
         }
-
         @keyframes gradientShift {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+            0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%}
         }
+        .dl-btn-main:hover { transform: translateY(-2px); box-shadow: 0 18px 40px rgba(139,92,246,0.55); }
+        .dl-btn-main:disabled { opacity: 0.5; cursor: not-allowed; animation: none; }
 
-        .download-main-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 45px rgba(139, 92, 246, 0.6);
+        .loading-box {
+            display: none; flex-direction: column; align-items: center;
+            padding: 28px 0 15px;
         }
-
-        .download-main-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            animation: none;
+        .loading-box.active { display: flex; }
+        .spinner {
+            width: 50px; height: 50px;
+            border: 3px solid rgba(255,255,255,0.08);
+            border-top-color: #8b5cf6; border-radius: 50%;
+            animation: spin 0.8s linear infinite; margin-bottom: 14px;
         }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Loading Animation */
-        .loading-container {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            padding: 30px 0 20px;
-        }
-
-        .loading-container.active {
-            display: flex;
-        }
-
-        .spinner-ring {
-            width: 60px;
-            height: 60px;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-top: 3px solid var(--purple);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin-bottom: 15px;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .loading-text {
-            color: #aaa;
-            font-size: 14px;
-            font-weight: 500;
-            animation: fadeText 1.5s ease-in-out infinite;
-        }
-
-        @keyframes fadeText {
-            0%, 100% {
-                opacity: 0.5;
-            }
-            50% {
-                opacity: 1;
-            }
-        }
-
-        /* Result */
-        .result-area {
-            display: none;
-            margin-top: 25px;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
+        .result-box {
+            display: none; margin-top: 22px;
+            background: rgba(0,0,0,0.35); border-radius: 20px;
+            padding: 18px; border: 1px solid rgba(255,255,255,0.05);
             animation: slideUp 0.4s ease;
         }
+        .result-box.active { display: block; }
+        @keyframes slideUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
-        .result-area.active {
-            display: block;
+        .result-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+        .thumb { width: 80px; height: 80px; border-radius: 14px; object-fit: cover; background: #1a1a2e; }
+        .info { flex: 1; }
+        .title { color: white; font-weight: 600; font-size: 14px; margin-bottom: 6px; }
+        .badge { padding: 4px 10px; border-radius: 50px; font-size: 10px; font-weight: 600; }
+        .badge-f { background: rgba(139,92,246,0.25); color: #c4b5fd; }
+        .actions { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+        .btn-dl {
+            padding: 10px 20px; border-radius: 50px; font-weight: 600;
+            font-size: 13px; text-decoration: none; display: flex;
+            align-items: center; gap: 6px; transition: 0.2s; border: none; cursor: pointer;
         }
+        .btn-primary { background: white; color: #000; }
+        .btn-primary:hover { background: #e2e8f0; }
+        .btn-secondary { background: rgba(255,255,255,0.07); color: white; border: 1px solid rgba(255,255,255,0.12); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.14); }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .result-content {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .result-thumb {
-            width: 90px;
-            height: 90px;
-            border-radius: 16px;
-            object-fit: cover;
-            background: #1a1a2e;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .result-info {
-            flex: 1;
-            min-width: 180px;
-        }
-
-        .result-title {
-            color: white;
-            font-weight: 600;
-            font-size: 15px;
-            margin-bottom: 8px;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .result-badges {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-        }
-
-        .badge {
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        .badge-format {
-            background: rgba(139, 92, 246, 0.3);
-            color: #c4b5fd;
-        }
-
-        .badge-quality {
-            background: rgba(34, 197, 94, 0.2);
-            color: #86efac;
-        }
-
-        .download-actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 10px;
-        }
-
-        .dl-btn {
-            padding: 10px 22px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            transition: all 0.3s;
-            border: none;
-        }
-
-        .dl-btn-primary {
-            background: white;
-            color: #000;
-        }
-
-        .dl-btn-primary:hover {
-            background: #e2e8f0;
-            transform: scale(1.03);
-        }
-
-        .dl-btn-secondary {
-            background: rgba(255, 255, 255, 0.08);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-
-        .dl-btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        /* Error */
         .error-box {
-            display: none;
-            margin-top: 20px;
-            padding: 15px 20px;
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 15px;
-            color: #fca5a5;
-            font-size: 14px;
-            text-align: center;
-            animation: slideUp 0.4s ease;
+            display: none; margin-top: 18px;
+            padding: 14px 18px; background: rgba(239,68,68,0.12);
+            border: 1px solid rgba(239,68,68,0.25);
+            border-radius: 14px; color: #fca5a5;
+            font-size: 13px; text-align: center;
         }
-
-        .error-box.active {
-            display: block;
-        }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            .main-card {
-                padding: 25px 20px;
-                border-radius: 25px;
-            }
-            .logo-text {
-                font-size: 22px;
-            }
-            .platform-btn {
-                font-size: 11px;
-                padding: 10px 8px;
-            }
-            .url-input-group input {
-                font-size: 13px;
-                padding: 14px 5px;
-            }
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-        }
+        .error-box.active { display: block; }
     </style>
 </head>
 <body>
-
-    <!-- Ambient orbs -->
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
-
-    <!-- Particles -->
     <div class="particles" id="particles"></div>
 
-    <!-- Main -->
     <div class="container">
         <div class="main-card">
-            <!-- Header -->
             <div class="header">
-                <div class="logo-section">
-                    <div class="logo-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
+                <div class="logo">
+                    <div class="logo-icon"><i class="fas fa-bolt"></i></div>
                     <span class="logo-text">VidFlow Pro</span>
                 </div>
-                <div class="premium-badge">
-                    <i class="fas fa-crown"></i> PREMIUM
-                </div>
+                <div class="badge-premium"><i class="fas fa-crown"></i> PREMIUM</div>
             </div>
 
-            <!-- URL Input -->
-            <div class="input-wrapper">
-                <div class="url-input-group">
-                    <i class="fas fa-link"></i>
-                    <input type="text" id="urlInput" placeholder="Paste video link here..." autocomplete="off">
-                    <button class="paste-btn" onclick="pasteURL()">
-                        <i class="far fa-clipboard"></i> Paste
-                    </button>
-                </div>
+            <div class="input-group">
+                <i class="fas fa-link"></i>
+                <input type="text" id="urlInput" placeholder="Paste video link..." autocomplete="off">
+                <button class="paste-btn" onclick="pasteURL()"><i class="far fa-clipboard"></i> Paste</button>
             </div>
 
-            <!-- Platform Buttons -->
             <div class="platforms" id="platforms">
-                <button class="platform-btn active" data-platform="tiktok">
-                    <i class="fab fa-tiktok"></i> TikTok
-                </button>
-                <button class="platform-btn" data-platform="instagram">
-                    <i class="fab fa-instagram"></i> Instagram
-                </button>
-                <button class="platform-btn" data-platform="facebook">
-                    <i class="fab fa-facebook"></i> Facebook
-                </button>
-                <button class="platform-btn" data-platform="youtube">
-                    <i class="fab fa-youtube"></i> YouTube
-                </button>
+                <button class="plat-btn active" data-plat="tiktok"><i class="fab fa-tiktok"></i> TikTok</button>
+                <button class="plat-btn" data-plat="instagram"><i class="fab fa-instagram"></i> Instagram</button>
+                <button class="plat-btn" data-plat="facebook"><i class="fab fa-facebook"></i> Facebook</button>
+                <button class="plat-btn" data-plat="youtube"><i class="fab fa-youtube"></i> YouTube</button>
             </div>
 
-            <!-- Download Button -->
-            <button class="download-main-btn" id="downloadBtn" onclick="startDownload()">
+            <button class="dl-btn-main" id="dlBtn" onclick="startDownload()">
                 <i class="fas fa-cloud-download-alt"></i> Download Video
             </button>
 
-            <!-- Loading -->
-            <div class="loading-container" id="loadingContainer">
-                <div class="spinner-ring"></div>
-                <p class="loading-text">Fetching your video...</p>
+            <div class="loading-box" id="loadingBox">
+                <div class="spinner"></div>
+                <p style="color:#999;font-size:13px;">Fetching video...</p>
             </div>
 
-            <!-- Result -->
-            <div class="result-area" id="resultArea">
+            <div class="result-box" id="resultBox">
                 <div id="resultContent"></div>
             </div>
 
-            <!-- Error -->
             <div class="error-box" id="errorBox"></div>
         </div>
     </div>
 
     <script>
-        // ============ PARTICLES ============
-        const particlesContainer = document.getElementById('particles');
-        const colors = ['#8b5cf6', '#ec4899', '#3b82f6', '#f59e0b', '#10b981', '#6366f1'];
+        // Particles
+        (function(){
+            const p = document.getElementById('particles');
+            const colors = ['#8b5cf6','#ec4899','#3b82f6','#f59e0b','#10b981'];
+            for(let i=0;i<45;i++){
+                const d = document.createElement('div');
+                d.className='particle';
+                const s = Math.random()*5+2;
+                d.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*8+7}s;animation-delay:${Math.random()*8}s`;
+                p.appendChild(d);
+            }
+        })();
 
-        for (let i = 0; i < 50; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            const size = Math.random() * 6 + 2;
-            particle.style.width = size + 'px';
-            particle.style.height = size + 'px';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-            particle.style.animationDuration = Math.random() * 10 + 8 + 's';
-            particle.style.animationDelay = Math.random() * 10 + 's';
-            particlesContainer.appendChild(particle);
-        }
-
-        // ============ PLATFORM SWITCH ============
-        let currentPlatform = 'tiktok';
-        const platformBtns = document.querySelectorAll('.platform-btn');
-
-        platformBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                platformBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentPlatform = btn.dataset.platform;
+        // Platform
+        let platform = 'tiktok';
+        document.querySelectorAll('.plat-btn').forEach(b=>{
+            b.addEventListener('click',()=>{
+                document.querySelectorAll('.plat-btn').forEach(x=>x.classList.remove('active'));
+                b.classList.add('active');
+                platform = b.dataset.plat;
                 hideAll();
             });
         });
 
-        // ============ PASTE ============
-        async function pasteURL() {
-            try {
-                const text = await navigator.clipboard.readText();
-                document.getElementById('urlInput').value = text;
-            } catch {
-                alert('Unable to paste. Please paste manually.');
-            }
+        async function pasteURL(){
+            try{ document.getElementById('urlInput').value = await navigator.clipboard.readText(); }
+            catch{ alert('Paste manually please'); }
         }
 
-        // ============ DOWNLOAD ============
-        async function startDownload() {
+        function hideAll(){
+            document.getElementById('loadingBox').classList.remove('active');
+            document.getElementById('resultBox').classList.remove('active');
+            document.getElementById('errorBox').classList.remove('active');
+            document.getElementById('dlBtn').disabled = false;
+        }
+
+        function showLoading(){
+            hideAll();
+            document.getElementById('loadingBox').classList.add('active');
+            document.getElementById('dlBtn').disabled = true;
+        }
+
+        function showError(msg){
+            hideAll();
+            const e = document.getElementById('errorBox');
+            e.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${escapeHTML(msg)}`;
+            e.classList.add('active');
+        }
+
+        async function startDownload(){
             const url = document.getElementById('urlInput').value.trim();
-            if (!url) {
-                showError('Please enter a video URL first');
-                return;
-            }
+            if(!url) return showError('Please enter a video URL');
 
             showLoading();
 
             try {
-                let data;
-                const apiKey = 'freeApikey';
-                const encodedUrl = encodeURIComponent(url);
+                // Use our own serverless function as proxy to avoid CORS
+                const res = await fetch(`/api/download?url=${encodeURIComponent(url)}&platform=${platform}`);
+                const data = await res.json();
 
-                switch (currentPlatform) {
-                    case 'tiktok':
-                        data = await fetchAPI(`https://anabot.my.id/api/download/tiktok?url=${encodedUrl}&apikey=${apiKey}`);
-                        break;
-                    case 'instagram':
-                        data = await fetchAPI(`https://anabot.my.id/api/download/instagram?url=${encodedUrl}&apikey=${apiKey}`);
-                        break;
-                    case 'facebook':
-                        data = await fetchAPI(`https://anabot.my.id/api/download/facebook?url=${encodedUrl}&apikey=${apiKey}`);
-                        break;
-                    case 'youtube':
-                        data = await fetchAPI(
-                            `https://kojaxd-api.vercel.app/downloader/ytmp4?apikey=Koja-5d5acdde3e2ab95585d4ebc888684266&url=${encodedUrl}&format=Mp4`
-                        );
-                        break;
-                }
+                if(data.error) return showError(data.error);
 
-                if (data?.data) {
-                    showResult(data, currentPlatform);
-                } else if (data?.download) {
-                    showResult({ data }, currentPlatform);
+                if(data.videoUrl) {
+                    showResult(data);
                 } else {
-                    showError(data?.message || 'No download link found for this video');
+                    showError('No download link found');
                 }
-            } catch (err) {
+            } catch(err) {
                 console.error(err);
-                showError('Something went wrong. Please check the URL or try again.');
+                showError('Network error. Please try again.');
             }
         }
 
-        async function fetchAPI(url) {
-            const res = await fetch(url);
-            if (!res.ok) throw new Error('API error');
-            return await res.json();
+        function showResult(data){
+            hideAll();
+            document.getElementById('dlBtn').disabled = false;
+            const box = document.getElementById('resultBox');
+            const c = document.getElementById('resultContent');
+
+            c.innerHTML = `
+                <div class="result-row">
+                    ${data.thumbnail ? `<img src="${data.thumbnail}" class="thumb" onerror="this.style.display='none'">` : ''}
+                    <div class="info">
+                        <div class="title">${escapeHTML(data.title || 'Video')}</div>
+                        <span class="badge badge-f"><i class="fas fa-film"></i> ${escapeHTML(data.format || 'MP4')} HD</span>
+                    </div>
+                </div>
+                <div class="actions">
+                    <a href="${data.videoUrl}" target="_blank" rel="noopener" class="btn-dl btn-primary">
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                    <button class="btn-dl btn-secondary" onclick="navigator.clipboard.writeText('${data.videoUrl.replace(/'/g,"\\'")}')">
+                        <i class="far fa-copy"></i> Copy Link
+                    </button>
+                </div>
+            `;
+            box.classList.add('active');
         }
 
-        // ============ UI HELPERS ============
-        function showLoading() {
-            document.getElementById('loadingContainer').classList.add('active');
-            document.getElementById('resultArea').classList.remove('active');
-            document.getElementById('errorBox').classList.remove('active');
-            document.getElementById('downloadBtn').disabled = true;
-        }
+        function escapeHTML(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
 
-        function hideAll() {
-            document.getElementById('loadingContainer').classList.remove('active');
-            document.getElementById('resultArea').classList.remove('active');
-            document.getElementById('errorBox').classList.remove('active');
-            document.getElementById('downloadBtn').disabled = false;
-        }
-
-        function showResult(data, platform) {
-            document.getElementById('loadingContainer').classList.remove('active');
-            document.getElementById('errorBox').classList.remove('active');
-            document.getElementById('downloadBtn').disabled = false;
-
-            const d = data.data;
-            const title = d.title || d.description || 'Untitled Video';
-            const thumbnail = d.thumbnail || d.thumb || '';
-            const downloadUrl = d.download || d.video || d.url || d.high || '';
-            const format = d.format || 'MP4';
-
-            if (!downloadUrl) {
-                showError('Download link not available');
-                return;
-            }
-
-            const resultArea = document.getElementById('resultArea');
-            const resultContent = document.getElementById('resultContent');
-
-            resultContent.innerHTML = `
-                        <div class="result-content">
-                            ${thumbnail ? `<img src="${thumbnail}" class="result-thumb" alt="thumb" onerror="this.style.display='none'">` : ''}
-                            <div class="result-info">
-                                <div class="result-title">${escapeHTML(title)}</div>
-                                <div class="result-badges">
-                                    <span class="badge badge-format"><i class="fas fa-film"></i> ${escapeHTML(format)}</span>
-                                    <span class="badge badge-quality"><i class="fas fa-star"></i> HD</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="download-actions">
-                            <a href="${downloadUrl}" target="_blank" rel="noopener" class="dl-btn dl-btn-primary">
-                                <i class="fas fa-download"></i> Download Now
-                            </a>
-                            <button class="dl-btn dl-btn-secondary" onclick="copyLink('${downloadUrl.replace(/'/g, "\\'")}')">
-                                <i class="far fa-copy"></i> Copy Link
-                            </button>
-                        </div>
-                    `;
-
-            resultArea.classList.add('active');
-        }
-
-        function showError(msg) {
-            document.getElementById('loadingContainer').classList.remove('active');
-            document.getElementById('resultArea').classList.remove('active');
-            document.getElementById('downloadBtn').disabled = false;
-
-            const errorBox = document.getElementById('errorBox');
-            errorBox.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${escapeHTML(msg)}`;
-            errorBox.classList.add('active');
-        }
-
-        function copyLink(url) {
-            navigator.clipboard.writeText(url).then(() => {
-                alert('Link copied to clipboard!');
-            });
-        }
-
-        function escapeHTML(str) {
-            const div = document.createElement('div');
-            div.textContent = str;
-            return div.innerHTML;
-        }
-
-        // Enter key to download
-        document.getElementById('urlInput').addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') startDownload();
-        });
+        document.getElementById('urlInput').addEventListener('keydown',e=>{ if(e.key==='Enter')startDownload(); });
     </script>
 </body>
 </html>
